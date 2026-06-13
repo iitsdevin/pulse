@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "encrypt": "node scripts/encrypt-manifest.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",

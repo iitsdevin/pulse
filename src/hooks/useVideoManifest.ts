@@ -1,26 +1,20 @@
-import { useState, useEffect, useCallback } from 'react'
-import type { VideoManifest } from '../lib/types'
+import { useCallback } from 'react'
+import { useAuth } from '../lib/auth'
 
-const MANIFEST_PATH = `${import.meta.env.BASE_URL}video-manifest.json`
-
+// The manifest is decrypted at login and held in auth context (never fetched in clear).
 export function useVideoManifest() {
-  const [manifest, setManifest] = useState<VideoManifest>({ workouts: {}, demos: {} })
-
-  useEffect(() => {
-    fetch(MANIFEST_PATH)
-      .then(r => r.json() as Promise<VideoManifest>)
-      .then(setManifest)
-      .catch(() => {})
-  }, [])
+  const { manifest } = useAuth()
+  const workouts = manifest?.workouts ?? {}
+  const demos = manifest?.demos ?? {}
 
   const getWorkoutVideoUrl = useCallback(
-    (filename: string) => manifest.workouts[filename] || '',
-    [manifest],
+    (filename: string) => workouts[filename] || '',
+    [workouts],
   )
 
   const getDemoVideoUrl = useCallback(
-    (slug: string) => manifest.demos[`${slug}.mp4`] || '',
-    [manifest],
+    (slug: string) => demos[`${slug}.mp4`] || '',
+    [demos],
   )
 
   return { manifest, getWorkoutVideoUrl, getDemoVideoUrl }

@@ -11,12 +11,24 @@ interface FullWorkoutCardProps {
 export function FullWorkoutCard({ workout, accent = ACCENT_DEFAULT, videoUrl }: FullWorkoutCardProps) {
   const duration = parseDuration(workout.total_duration_minutes)
 
-  // If a real video URL exists, show a playable video
+  // If a real video URL exists, show a playable video.
+  // Google Drive videos must stream through the Drive preview iframe.
   if (videoUrl) {
+    const isDrive = videoUrl.includes('drive.google.com')
     return (
       <div className="mx-4 mt-3.5 overflow-hidden" style={{ background: '#151515', borderRadius: 22, border: '1px solid rgba(255,255,255,0.05)' }}>
         <div className="relative w-full" style={{ aspectRatio: '16 / 9', background: '#0A0A0A' }}>
-          <video src={videoUrl} controls playsInline className="w-full h-full object-cover" />
+          {isDrive ? (
+            <iframe
+              src={videoUrl}
+              allow="autoplay; fullscreen"
+              allowFullScreen
+              className="w-full h-full border-0"
+              title={workout.workout_title}
+            />
+          ) : (
+            <video src={videoUrl} controls playsInline className="w-full h-full object-cover" />
+          )}
         </div>
         <MetadataRow workout={workout} accent={accent} />
       </div>

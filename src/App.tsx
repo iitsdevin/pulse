@@ -12,11 +12,14 @@ import { useWorkouts } from './hooks/useWorkouts'
 import { useSettings } from './hooks/useSettings'
 import { useCompletedWorkouts, useLoggedWeights, usePersonalRecords } from './hooks/useDexie'
 import { useVideoManifest } from './hooks/useVideoManifest'
+import { useAuth } from './lib/auth'
+import { LoginScreen } from './components/LoginScreen'
 import type { Workout } from './lib/types'
 import { formatDisplayDate } from './lib/utils'
 import { ACCENT_DEFAULT } from './lib/constants'
 
 export function App() {
+  const { manifest } = useAuth()
   const [tab, setTab] = useState<TabId>('today')
   const [openWorkout, setOpenWorkout] = useState<Workout | null>(null)
   const [settingsOpen, setSettingsOpen] = useState(false)
@@ -63,6 +66,11 @@ export function App() {
   const handleBack = useCallback(() => {
     setOpenWorkout(null)
   }, [])
+
+  // Gate the whole app behind login. The decrypted manifest is what unlocks video.
+  if (!manifest) {
+    return <LoginScreen />
+  }
 
   if (loading) {
     return (
