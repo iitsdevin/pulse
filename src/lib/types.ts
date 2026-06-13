@@ -89,6 +89,8 @@ export interface AIProgramEntry {
   program: Record<string, string>  // { monday: workout_id, tuesday: workout_id, ... }
 }
 
+export type ThemeId = 'ink' | 'midnight' | 'sand' | 'forest' | 'dusk'
+
 export interface AppSettings {
   id?: number
   rest_sec: number
@@ -97,6 +99,8 @@ export interface AppSettings {
   sound: boolean
   haptics: boolean
   autoplay: boolean
+  theme: ThemeId
+  api_key: string
 }
 
 // Workout type badge

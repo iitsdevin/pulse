@@ -22,7 +22,7 @@ export function HeroCard({ workout, accent = ACCENT_DEFAULT, isToday = true, pct
     : `${workout.day_of_week.toUpperCase()} · ${formatDisplayDate(workout.date)}`
 
   return (
-    <div className="relative overflow-hidden text-white" style={{ background: '#0A0A0A', padding: '20px 20px 24px' }}>
+    <div className="relative overflow-hidden text-white" style={{ background: 'var(--hero)', padding: '20px 20px 24px' }}>
       {/* accent top bar */}
       <div className="absolute top-0 left-0 right-0 h-[3px]" style={{ background: accent }} />
 
@@ -34,7 +34,7 @@ export function HeroCard({ workout, accent = ACCENT_DEFAULT, isToday = true, pct
           <div className="mt-1.5 text-[32px] font-[800] uppercase leading-[1.05]" style={{ letterSpacing: -1 }}>
             {workout.workout_title}
           </div>
-          <div className="mt-1.5 text-[13px]" style={{ color: 'rgba(255,255,255,0.55)', letterSpacing: -0.1 }}>
+          <div className="mt-1.5 text-[13px]" style={{ color: 'var(--on-hero-2)', letterSpacing: -0.1 }}>
             {workout.muscle_groups.join(' · ')}
           </div>
         </div>
@@ -62,24 +62,24 @@ export function HeroCard({ workout, accent = ACCENT_DEFAULT, isToday = true, pct
       {/* stats grid */}
       <div className="grid grid-cols-3 gap-3 mt-4 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
         <div>
-          <div className="font-mono text-[10px]" style={{ letterSpacing: 1, color: 'rgba(255,255,255,0.45)' }}>DURATION</div>
+          <div className="font-mono text-[10px]" style={{ letterSpacing: 1, color: 'var(--on-hero-3)' }}>DURATION</div>
           <div className="text-[22px] font-[800] mt-0.5" style={{ letterSpacing: -0.8 }}>
-            {duration}<span className="text-[11px] ml-[3px]" style={{ color: 'rgba(255,255,255,0.5)' }}>min</span>
+            {duration}<span className="text-[11px] ml-[3px]" style={{ color: 'var(--on-hero-2)' }}>min</span>
           </div>
         </div>
         <div>
-          <div className="font-mono text-[10px]" style={{ letterSpacing: 1, color: 'rgba(255,255,255,0.45)' }}>ROUNDS</div>
+          <div className="font-mono text-[10px]" style={{ letterSpacing: 1, color: 'var(--on-hero-3)' }}>ROUNDS</div>
           <div className="text-[22px] font-[800] mt-0.5" style={{ letterSpacing: -0.8 }}>{workout.rounds.length}</div>
         </div>
         <div>
-          <div className="font-mono text-[10px]" style={{ letterSpacing: 1, color: 'rgba(255,255,255,0.45)' }}>EXERCISES</div>
+          <div className="font-mono text-[10px]" style={{ letterSpacing: 1, color: 'var(--on-hero-3)' }}>EXERCISES</div>
           <div className="text-[22px] font-[800] mt-0.5" style={{ letterSpacing: -0.8 }}>{totalExercises}</div>
         </div>
       </div>
 
       {/* progress bar */}
       <div className="mt-[18px]">
-        <div className="flex justify-between mb-1.5 font-mono text-[10px]" style={{ letterSpacing: 1, color: 'rgba(255,255,255,0.55)' }}>
+        <div className="flex justify-between mb-1.5 font-mono text-[10px]" style={{ letterSpacing: 1, color: 'var(--on-hero-2)' }}>
           <span>PROGRESS</span>
           <span style={{ color: accent }}>{pct}%</span>
         </div>

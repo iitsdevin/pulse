@@ -4,7 +4,7 @@ interface ChevronProps {
   size?: number
 }
 
-export function Chevron({ open, color = 'rgba(255,255,255,0.4)', size = 14 }: ChevronProps) {
+export function Chevron({ open, color = 'var(--text-3)', size = 14 }: ChevronProps) {
   return (
     <svg
       width={size}

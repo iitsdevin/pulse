@@ -29,7 +29,7 @@ export function ExerciseRow({
   const hasVideo = !!exercise.name_slug
 
   return (
-    <div style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+    <div style={{ borderBottom: '1px solid var(--hairline)' }}>
       <div className="flex items-center gap-3" style={{ padding: '14px 16px' }}>
         {/* checkbox */}
         <button
@@ -37,13 +37,13 @@ export function ExerciseRow({
           className="flex-shrink-0 flex items-center justify-center p-0 border-none cursor-pointer"
           style={{
             width: 22, height: 22, borderRadius: 6,
-            border: completed ? 'none' : '1.5px solid rgba(255,255,255,0.25)',
+            border: completed ? 'none' : '1.5px solid var(--text-3)',
             background: completed ? accent : 'transparent',
           }}
         >
           {completed && (
             <svg width="12" height="10" viewBox="0 0 12 10">
-              <path d="M1 5L4.5 8.5L11 1.5" stroke="#000" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M1 5L4.5 8.5L11 1.5" stroke="var(--accent-on)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           )}
         </button>
@@ -51,9 +51,10 @@ export function ExerciseRow({
         {/* name + weight */}
         <div className="flex-1 min-w-0 cursor-pointer" onClick={() => setOpen(o => !o)}>
           <div
-            className="text-[15px] font-semibold text-white truncate"
+            className="text-[15px] font-semibold truncate"
             style={{
               letterSpacing: -0.2,
+              color: 'var(--text-1)',
               textDecoration: completed ? 'line-through' : 'none',
               opacity: completed ? 0.45 : 1,
             }}
@@ -61,7 +62,7 @@ export function ExerciseRow({
             {exercise.name}
           </div>
           {(exercise.instructor_weight || loggedWeight) && (
-            <div className="font-mono text-[10px] mt-0.5" style={{ color: 'rgba(255,255,255,0.4)', letterSpacing: 0.3 }}>
+            <div className="font-mono text-[10px] mt-0.5" style={{ color: 'var(--text-3)', letterSpacing: 0.3 }}>
               @ {loggedWeight || exercise.instructor_weight}
             </div>
           )}
@@ -70,12 +71,12 @@ export function ExerciseRow({
         {/* reps or time */}
         <div className="flex items-baseline gap-0.5 cursor-pointer flex-shrink-0" onClick={() => setOpen(o => !o)}>
           <div
-            className="text-[22px] font-[800] text-white leading-none"
-            style={{ letterSpacing: -0.8, fontVariantNumeric: 'tabular-nums' }}
+            className="text-[22px] font-[800] leading-none"
+            style={{ letterSpacing: -0.8, fontVariantNumeric: 'tabular-nums', color: 'var(--text-1)' }}
           >
             {metric.value}
           </div>
-          <div className="font-mono text-[10px] font-bold" style={{ color: 'rgba(255,255,255,0.4)' }}>
+          <div className="font-mono text-[10px] font-bold" style={{ color: 'var(--text-3)' }}>
             {metric.type === 'time' ? 's' : typeof metric.value === 'number' ? 'reps' : ''}
           </div>
         </div>
@@ -88,7 +89,7 @@ export function ExerciseRow({
               className="transition-transform duration-200 ease-in-out"
               style={{ transform: open ? 'rotate(90deg)' : 'rotate(0deg)' }}
             >
-              <path d="M2 2L8 7L2 12" stroke="rgba(255,255,255,0.35)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M2 2L8 7L2 12" stroke="var(--text-3)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
         )}
@@ -104,21 +105,22 @@ export function ExerciseRow({
           {/* weight input */}
           {exercise.instructor_weight && (
             <div className="flex items-center gap-2">
-              <label className="font-mono text-[10px] tracking-wide" style={{ color: 'rgba(255,255,255,0.45)' }}>WEIGHT</label>
+              <label className="font-mono text-[10px] tracking-wide" style={{ color: 'var(--text-3)' }}>WEIGHT</label>
               <input
                 type="text"
                 placeholder={exercise.instructor_weight}
                 value={loggedWeight || ''}
                 onChange={e => onWeightChange?.(e.target.value)}
-                className="flex-1 font-mono text-[13px] font-bold text-white bg-transparent border-none outline-none"
+                className="flex-1 font-mono text-[13px] font-bold bg-transparent border-none outline-none"
                 style={{
-                  borderBottom: '1px solid rgba(255,255,255,0.15)',
+                  borderBottom: '1px solid var(--surface-3)',
                   padding: '4px 0',
+                  color: 'var(--text-1)',
                 }}
               />
             </div>
           )}
-          <div className="text-[12px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>
+          <div className="text-[12px] leading-relaxed" style={{ color: 'var(--text-2)' }}>
             Keep core engaged throughout. Control the eccentric — {metric.type === 'time' ? 'maintain pace with the timer.' : 'focus on form over speed.'}
           </div>
         </div>

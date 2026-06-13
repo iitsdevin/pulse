@@ -23,18 +23,18 @@ export function LoginScreen() {
   }
 
   const inputStyle = {
-    background: '#141416',
-    border: '1px solid rgba(255,255,255,0.10)',
-    color: '#fff',
+    background: 'var(--surface)',
+    border: '1px solid var(--hairline)',
+    color: 'var(--text-1)',
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-8" style={{ background: '#0A0A0B' }}>
+    <div className="min-h-screen flex flex-col items-center justify-center px-8" style={{ background: 'var(--bg)' }}>
       <div className="w-full max-w-[320px]">
         <div className="font-mono font-bold text-[26px] tracking-[6px] text-center" style={{ color: accent }}>
           PULSE
         </div>
-        <div className="font-mono text-[10px] tracking-[2px] text-center mt-2 mb-9" style={{ color: 'rgba(255,255,255,0.4)' }}>
+        <div className="font-mono text-[10px] tracking-[2px] text-center mt-2 mb-9" style={{ color: 'var(--text-3)' }}>
           PRIVATE TRAINING LIBRARY
         </div>
 
@@ -62,14 +62,14 @@ export function LoginScreen() {
             type="submit"
             disabled={busy || !username || !password}
             className="rounded-xl py-3 font-mono font-bold text-[13px] tracking-[2px] mt-1 disabled:opacity-40"
-            style={{ background: accent, color: '#06222a' }}
+            style={{ background: accent, color: 'var(--accent-on)' }}
           >
             {busy ? 'CHECKING…' : 'ENTER'}
           </button>
         </form>
 
         {error && (
-          <div className="font-mono text-[11px] text-center mt-4" style={{ color: '#FF5C5C' }}>
+          <div className="font-mono text-[11px] text-center mt-4" style={{ color: 'var(--danger)' }}>
             Incorrect username or password.
           </div>
         )}

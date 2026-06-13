@@ -23,33 +23,33 @@ export function SimpleTimer({ seconds, accent = ACCENT_DEFAULT }: SimpleTimerPro
   const ss = String(remaining % 60).padStart(2, '0')
 
   return (
-    <div className="flex items-center gap-2.5 rounded-chip" style={{ padding: '10px 12px', background: 'rgba(255,255,255,0.04)' }}>
+    <div className="flex items-center gap-2.5 rounded-chip" style={{ padding: '10px 12px', background: 'var(--surface-2)' }}>
       <button
         onClick={() => { if (remaining === 0) setRemaining(seconds); setRunning(r => !r) }}
         className="flex-shrink-0 flex items-center justify-center p-0 border-none cursor-pointer"
         style={{
           width: 32, height: 32, borderRadius: '50%',
-          background: running ? '#fff' : accent,
+          background: accent,
         }}
       >
         {running ? (
           <span className="inline-flex gap-0.5">
-            <span className="w-[3px] h-[10px] rounded-sm bg-black" />
-            <span className="w-[3px] h-[10px] rounded-sm bg-black" />
+            <span className="w-[3px] h-[10px] rounded-sm" style={{ background: 'var(--accent-on)' }} />
+            <span className="w-[3px] h-[10px] rounded-sm" style={{ background: 'var(--accent-on)' }} />
           </span>
         ) : (
-          <svg width="8" height="10" viewBox="0 0 8 10"><path d="M0 0L8 5L0 10Z" fill="#000" /></svg>
+          <svg width="8" height="10" viewBox="0 0 8 10"><path d="M0 0L8 5L0 10Z" fill="var(--accent-on)" /></svg>
         )}
       </button>
       <div className="flex-1">
-        <div className="font-mono text-[16px] font-bold text-white leading-none" style={{ fontVariantNumeric: 'tabular-nums' }}>
+        <div className="font-mono text-[16px] font-bold leading-none" style={{ fontVariantNumeric: 'tabular-nums', color: 'var(--text-1)' }}>
           {mm}:{ss}
         </div>
-        <div className="mt-1.5 h-[3px] rounded-sm overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
+        <div className="mt-1.5 h-[3px] rounded-sm overflow-hidden" style={{ background: 'var(--surface-3)' }}>
           <div className="h-full transition-[width] duration-1000 linear" style={{ width: `${progress * 100}%`, background: accent }} />
         </div>
       </div>
-      <div className="font-mono text-[10px] tracking-wide" style={{ color: 'rgba(255,255,255,0.4)' }}>/ {seconds}s</div>
+      <div className="font-mono text-[10px] tracking-wide" style={{ color: 'var(--text-3)' }}>/ {seconds}s</div>
     </div>
   )
 }

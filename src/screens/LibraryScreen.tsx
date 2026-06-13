@@ -29,11 +29,11 @@ export function LibraryScreen({ workouts, accent = ACCENT_DEFAULT, onOpen }: Lib
   return (
     <div className="pb-10">
       {/* header */}
-      <div className="relative text-white" style={{ background: '#0A0A0A', padding: '20px 20px 18px' }}>
+      <div className="relative text-white" style={{ background: 'var(--hero)', padding: '20px 20px 18px' }}>
         <div className="absolute top-0 left-0 right-0 h-[3px]" style={{ background: accent }} />
         <div className="font-mono text-[11px] font-bold" style={{ letterSpacing: 2, color: accent }}>WORKOUT LIBRARY</div>
         <div className="text-[32px] font-[800] uppercase mt-1" style={{ letterSpacing: -1 }}>Full Sessions</div>
-        <div className="text-[12px] mt-1.5" style={{ color: 'rgba(255,255,255,0.55)', letterSpacing: -0.1 }}>
+        <div className="text-[12px] mt-1.5" style={{ color: 'var(--on-hero-2)', letterSpacing: -0.1 }}>
           Follow a full-length video with {totalSessions} sessions across {LIBRARY_CATEGORIES.length} categories.
         </div>
       </div>
@@ -51,8 +51,8 @@ export function LibraryScreen({ workouts, accent = ACCENT_DEFAULT, onOpen }: Lib
                 padding: '9px 14px',
                 borderRadius: 999,
                 letterSpacing: 1.2,
-                background: isActive ? '#fff' : 'rgba(255,255,255,0.06)',
-                color: isActive ? '#000' : 'rgba(255,255,255,0.7)',
+                background: isActive ? 'var(--text-1)' : 'var(--surface-2)',
+                color: isActive ? 'var(--bg)' : 'var(--text-2)',
               }}
             >
               <span className="w-[7px] h-[7px] rounded-full" style={{ background: c.accent }} />
@@ -68,18 +68,18 @@ export function LibraryScreen({ workouts, accent = ACCENT_DEFAULT, onOpen }: Lib
         <div
           className="flex items-center justify-between"
           style={{
-            background: `linear-gradient(135deg, ${activeCat.hue}, transparent 70%), #151515`,
+            background: `linear-gradient(135deg, ${activeCat.hue}, transparent 70%), var(--surface)`,
             borderRadius: 20, padding: '14px 16px',
-            border: '1px solid rgba(255,255,255,0.05)',
+            border: '1px solid var(--hairline)',
           }}
         >
           <div>
-            <div className="text-[20px] font-[800] text-white" style={{ letterSpacing: -0.5 }}>{activeCat.title}</div>
-            <div className="text-[12px] mt-0.5" style={{ color: 'rgba(255,255,255,0.55)' }}>{activeCat.desc}</div>
+            <div className="text-[20px] font-[800]" style={{ letterSpacing: -0.5, color: 'var(--text-1)' }}>{activeCat.title}</div>
+            <div className="text-[12px] mt-0.5" style={{ color: 'var(--text-2)' }}>{activeCat.desc}</div>
           </div>
           <div className="font-mono text-right">
-            <div className="text-[10px] font-bold" style={{ letterSpacing: 1, color: 'rgba(255,255,255,0.5)' }}>VIDEOS</div>
-            <div className="text-[26px] font-[800] text-white leading-none mt-0.5" style={{ letterSpacing: -1 }}>{sessions.length}</div>
+            <div className="text-[10px] font-bold" style={{ letterSpacing: 1, color: 'var(--text-2)' }}>VIDEOS</div>
+            <div className="text-[26px] font-[800] leading-none mt-0.5" style={{ letterSpacing: -1, color: 'var(--text-1)' }}>{sessions.length}</div>
           </div>
         </div>
       </div>
@@ -92,9 +92,9 @@ export function LibraryScreen({ workouts, accent = ACCENT_DEFAULT, onOpen }: Lib
             onClick={() => onOpen(w)}
             className="cursor-pointer overflow-hidden"
             style={{
-              background: '#151515',
+              background: 'var(--surface)',
               borderRadius: 16,
-              border: '1px solid rgba(255,255,255,0.05)',
+              border: '1px solid var(--hairline)',
             }}
           >
             {/* thumbnail */}
@@ -147,10 +147,10 @@ export function LibraryScreen({ workouts, accent = ACCENT_DEFAULT, onOpen }: Lib
               </div>
             </div>
             <div style={{ padding: '10px 11px 12px' }}>
-              <div className="text-[13px] font-bold text-white truncate" style={{ letterSpacing: -0.2 }}>
+              <div className="text-[13px] font-bold truncate" style={{ letterSpacing: -0.2, color: 'var(--text-1)' }}>
                 {w.workout_title}
               </div>
-              <div className="font-mono text-[9px] mt-[3px]" style={{ letterSpacing: 0.3, color: 'rgba(255,255,255,0.45)' }}>
+              <div className="font-mono text-[9px] mt-[3px]" style={{ letterSpacing: 0.3, color: 'var(--text-3)' }}>
                 Evlo
               </div>
             </div>

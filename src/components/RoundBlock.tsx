@@ -51,9 +51,9 @@ export function RoundBlock({
     <div
       className="overflow-hidden"
       style={{
-        background: '#151515',
+        background: 'var(--surface)',
         borderRadius: 22,
-        border: '1px solid rgba(255,255,255,0.05)',
+        border: '1px solid var(--hairline)',
       }}
     >
       {/* header */}
@@ -62,7 +62,7 @@ export function RoundBlock({
         className="flex items-center gap-3 cursor-pointer"
         style={{
           padding: '14px 14px',
-          borderBottom: open ? '1px solid rgba(255,255,255,0.08)' : 'none',
+          borderBottom: open ? '1px solid var(--hairline)' : 'none',
         }}
       >
         {/* play button */}
@@ -71,41 +71,40 @@ export function RoundBlock({
           className="flex-shrink-0 flex items-center justify-center p-0 border-none cursor-pointer"
           style={{
             width: 46, height: 46, borderRadius: 14,
-            background: running ? '#fff' : accent,
-            boxShadow: running ? 'none' : `0 0 0 4px ${accent}22`,
-            transition: 'background 0.15s, box-shadow 0.15s',
+            background: accent,
+            transition: 'background 0.15s',
           }}
           aria-label={running ? 'Pause round timer' : 'Start round timer'}
         >
           {running ? (
             <span className="inline-flex gap-[3px]">
-              <span className="w-1 h-[14px] bg-black rounded-sm" />
-              <span className="w-1 h-[14px] bg-black rounded-sm" />
+              <span className="w-1 h-[14px] rounded-sm" style={{ background: 'var(--accent-on)' }} />
+              <span className="w-1 h-[14px] rounded-sm" style={{ background: 'var(--accent-on)' }} />
             </span>
           ) : (
             <svg width="14" height="16" viewBox="0 0 14 16" style={{ marginLeft: 2 }}>
-              <path d="M0 0L14 8L0 16Z" fill="#000" />
+              <path d="M0 0L14 8L0 16Z" fill="var(--accent-on)" />
             </svg>
           )}
         </button>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline gap-2">
-            <div className="font-mono text-[11px] font-[800]" style={{ color: accent, letterSpacing: 1.4 }}>
+            <div className="font-mono text-[11px] font-[800]" style={{ color: 'var(--accent-ink)', letterSpacing: 1.4 }}>
               R{String(roundIndex + 1).padStart(2, '0')}
             </div>
-            <div className="text-[15px] font-bold text-white truncate" style={{ letterSpacing: -0.2 }}>
+            <div className="text-[15px] font-bold truncate" style={{ letterSpacing: -0.2, color: 'var(--text-1)' }}>
               Round {roundIndex + 1}
             </div>
           </div>
-          <div className="font-mono text-[10px] mt-[3px]" style={{ color: 'rgba(255,255,255,0.4)', letterSpacing: 0.5 }}>
+          <div className="font-mono text-[10px] mt-[3px]" style={{ color: 'var(--text-3)', letterSpacing: 0.5 }}>
             {totalExercises} EX · REST {settings.rest_sec}s
           </div>
         </div>
 
         <div
           className="font-mono text-[12px] font-bold"
-          style={{ color: doneCount === totalExercises ? accent : 'rgba(255,255,255,0.45)' }}
+          style={{ color: doneCount === totalExercises ? 'var(--accent-ink)' : 'var(--text-3)' }}
         >
           {doneCount}/{totalExercises}
         </div>
@@ -130,8 +129,8 @@ export function RoundBlock({
                 onClick={resetTimer}
                 className="font-mono text-[10px] font-bold border-none cursor-pointer inline-flex items-center gap-[5px]"
                 style={{
-                  background: 'rgba(255,255,255,0.06)',
-                  color: 'rgba(255,255,255,0.65)',
+                  background: 'var(--surface-2)',
+                  color: 'var(--text-2)',
                   padding: '6px 12px',
                   borderRadius: 999,
                   letterSpacing: 1.2,

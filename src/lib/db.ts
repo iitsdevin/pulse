@@ -40,7 +40,18 @@ db.on('ready', async () => {
 // ── Settings helpers ──────────────────────────────────────────
 export async function getSettings(): Promise<AppSettings> {
   const row = await db.settings.toCollection().first()
-  return row ?? { ...DEFAULT_SETTINGS }
+  // Merge so older saved rows pick up newly-added fields (theme, api_key).
+  return { ...DEFAULT_SETTINGS, ...row }
+}
+
+// Wipes all logged history (completions, weights, PRs, AI programs). Keeps settings.
+export async function resetHistory(): Promise<void> {
+  await Promise.all([
+    db.completedWorkouts.clear(),
+    db.loggedWeights.clear(),
+    db.personalRecords.clear(),
+    db.aiPrograms.clear(),
+  ])
 }
 
 export async function saveSettings(settings: Partial<AppSettings>): Promise<void> {

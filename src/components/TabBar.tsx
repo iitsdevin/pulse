@@ -1,11 +1,8 @@
-import { ACCENT_DEFAULT } from '../lib/constants'
-
 export type TabId = 'today' | 'history' | 'library' | 'program' | 'stats'
 
 interface TabBarProps {
   tab: TabId
   setTab: (t: TabId) => void
-  accent?: string
 }
 
 const tabs: { id: TabId; label: string; icon: (c: string) => JSX.Element }[] = [
@@ -56,22 +53,22 @@ const tabs: { id: TabId; label: string; icon: (c: string) => JSX.Element }[] = [
   },
 ]
 
-export function TabBar({ tab, setTab, accent = ACCENT_DEFAULT }: TabBarProps) {
+export function TabBar({ tab, setTab }: TabBarProps) {
   return (
     <div
       className="fixed bottom-0 left-0 right-0 z-40"
       style={{
         paddingBottom: 28, paddingTop: 8, paddingInline: 8,
-        background: 'rgba(10,10,10,0.88)',
+        background: 'var(--tab-bar)',
         backdropFilter: 'blur(20px) saturate(180%)',
         WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-        borderTop: '1px solid rgba(255,255,255,0.06)',
+        borderTop: '1px solid var(--hairline)',
       }}
     >
       <div className="flex justify-around">
         {tabs.map(t => {
           const active = tab === t.id
-          const color = active ? accent : 'rgba(255,255,255,0.45)'
+          const color = active ? 'var(--accent-ink)' : 'var(--text-3)'
           return (
             <button
               key={t.id}

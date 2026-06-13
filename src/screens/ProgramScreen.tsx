@@ -9,13 +9,15 @@ interface ProgramScreenProps {
   accent?: string
   completedWorkoutIds: Set<string>
   onOpenWorkout: (workout: Workout) => void
+  apiKey?: string
+  onOpenSettings?: () => void
 }
 
 interface WeeklyProgram {
   [day: string]: string // day_of_week → workout_id
 }
 
-export function ProgramScreen({ workouts, accent = ACCENT_DEFAULT, completedWorkoutIds, onOpenWorkout }: ProgramScreenProps) {
+export function ProgramScreen({ workouts, accent = ACCENT_DEFAULT, completedWorkoutIds, onOpenWorkout, apiKey = '', onOpenSettings }: ProgramScreenProps) {
   const [prompt, setPrompt] = useState('')
   const [loading, setLoading] = useState(false)
   const [program, setProgram] = useState<WeeklyProgram | null>(null)
@@ -29,9 +31,8 @@ export function ProgramScreen({ workouts, accent = ACCENT_DEFAULT, completedWork
   }, [])
 
   const generate = useCallback(async () => {
-    const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY
     if (!apiKey) {
-      setError('Set VITE_ANTHROPIC_API_KEY in .env to use AI programming.')
+      setError('Add your Anthropic API key in Settings to use AI programming.')
       return
     }
 
@@ -105,11 +106,11 @@ Use "rest" for rest days. Pick workouts that match the user's request and avoid 
   return (
     <div className="pb-10">
       {/* header */}
-      <div className="relative text-white" style={{ background: '#0A0A0A', padding: '20px 20px 24px' }}>
+      <div className="relative text-white" style={{ background: 'var(--hero)', padding: '20px 20px 24px' }}>
         <div className="absolute top-0 left-0 right-0 h-[3px]" style={{ background: accent }} />
         <div className="font-mono text-[11px] font-bold" style={{ letterSpacing: 2, color: accent }}>AI PROGRAM</div>
         <div className="text-[32px] font-[800] uppercase mt-1" style={{ letterSpacing: -1 }}>Weekly Plan</div>
-        <div className="text-[12px] mt-1.5" style={{ color: 'rgba(255,255,255,0.55)' }}>
+        <div className="text-[12px] mt-1.5" style={{ color: 'var(--on-hero-2)' }}>
           Describe your week and get a personalised program from Claude.
         </div>
 
@@ -132,7 +133,7 @@ Use "rest" for rest days. Pick workouts that match the user's request and avoid 
           className="w-full mt-3 font-mono text-[12px] font-bold uppercase border-none cursor-pointer"
           style={{
             background: loading ? 'rgba(255,255,255,0.08)' : accent,
-            color: loading ? 'rgba(255,255,255,0.4)' : '#000',
+            color: loading ? 'var(--on-hero-3)' : 'var(--accent-on)',
             padding: '14px 0', borderRadius: 14,
             letterSpacing: 1.5,
             opacity: (!prompt.trim() || loading) ? 0.5 : 1,
@@ -141,14 +142,23 @@ Use "rest" for rest days. Pick workouts that match the user's request and avoid 
           {loading ? 'GENERATING...' : 'GENERATE PROGRAM'}
         </button>
         {error && (
-          <div className="mt-2 text-[12px]" style={{ color: '#FF5C5C' }}>{error}</div>
+          <div className="mt-2 text-[12px]" style={{ color: 'var(--danger)' }}>{error}</div>
+        )}
+        {!apiKey && onOpenSettings && (
+          <button
+            onClick={onOpenSettings}
+            className="mt-2 font-mono text-[11px] font-bold border-none cursor-pointer"
+            style={{ background: 'rgba(255,255,255,0.08)', color: '#fff', padding: '9px 14px', borderRadius: 10, letterSpacing: 1 }}
+          >
+            ADD API KEY IN SETTINGS →
+          </button>
         )}
       </div>
 
       {/* weekly program cards */}
       {program && (
         <div className="px-4 pt-4 flex flex-col gap-2.5">
-          <div className="font-mono text-[11px] font-bold px-1" style={{ letterSpacing: 2, color: 'rgba(255,255,255,0.5)' }}>
+          <div className="font-mono text-[11px] font-bold px-1" style={{ letterSpacing: 2, color: 'var(--text-2)' }}>
             YOUR WEEK
           </div>
           {days.map(day => {
@@ -162,31 +172,31 @@ Use "rest" for rest days. Pick workouts that match the user's request and avoid 
                 onClick={() => workout && onOpenWorkout(workout)}
                 className={workout ? 'cursor-pointer' : ''}
                 style={{
-                  background: '#151515',
+                  background: 'var(--surface)',
                   borderRadius: 16, padding: '14px 16px',
-                  border: '1px solid rgba(255,255,255,0.05)',
+                  border: '1px solid var(--hairline)',
                   opacity: isRest ? 0.5 : 1,
                 }}
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="font-mono text-[10px] font-bold" style={{ letterSpacing: 1, color: accent }}>
+                    <div className="font-mono text-[10px] font-bold" style={{ letterSpacing: 1, color: 'var(--accent-ink)' }}>
                       {day.toUpperCase()}
                     </div>
-                    <div className="text-[15px] font-bold text-white mt-1" style={{ letterSpacing: -0.2 }}>
+                    <div className="text-[15px] font-bold mt-1" style={{ letterSpacing: -0.2, color: 'var(--text-1)' }}>
                       {isRest ? 'Rest Day' : workout?.workout_title || workoutId}
                     </div>
                     {workout && (
-                      <div className="font-mono text-[10px] mt-1" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                      <div className="font-mono text-[10px] mt-1" style={{ color: 'var(--text-3)' }}>
                         {workout.muscle_groups.join(' · ')} · {workout.total_duration_minutes}min
                       </div>
                     )}
                   </div>
                   {isRest ? (
-                    <div className="font-mono text-[10px] font-bold" style={{ color: 'rgba(255,255,255,0.3)' }}>REST</div>
+                    <div className="font-mono text-[10px] font-bold" style={{ color: 'var(--text-3)' }}>REST</div>
                   ) : (
                     <svg width="10" height="14" viewBox="0 0 10 14">
-                      <path d="M2 2L8 7L2 12" stroke="rgba(255,255,255,0.35)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M2 2L8 7L2 12" stroke="var(--text-3)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   )}
                 </div>

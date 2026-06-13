@@ -16,8 +16,8 @@ export function FullWorkoutCard({ workout, accent = ACCENT_DEFAULT, videoUrl }: 
   if (videoUrl) {
     const isDrive = videoUrl.includes('drive.google.com')
     return (
-      <div className="mx-4 mt-3.5 overflow-hidden" style={{ background: '#151515', borderRadius: 22, border: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="relative w-full" style={{ aspectRatio: '16 / 9', background: '#0A0A0A' }}>
+      <div className="mx-4 mt-3.5 overflow-hidden" style={{ background: 'var(--surface)', borderRadius: 22, border: '1px solid var(--hairline)' }}>
+        <div className="relative w-full" style={{ aspectRatio: '16 / 9', background: 'var(--hero)' }}>
           {isDrive ? (
             <iframe
               src={videoUrl}
@@ -36,9 +36,9 @@ export function FullWorkoutCard({ workout, accent = ACCENT_DEFAULT, videoUrl }: 
   }
 
   return (
-    <div className="mx-4 mt-3.5 overflow-hidden" style={{ background: '#151515', borderRadius: 22, border: '1px solid rgba(255,255,255,0.05)' }}>
+    <div className="mx-4 mt-3.5 overflow-hidden" style={{ background: 'var(--surface)', borderRadius: 22, border: '1px solid var(--hairline)' }}>
       {/* video placeholder area */}
-      <div className="relative w-full cursor-pointer" style={{ aspectRatio: '16 / 9', background: '#0A0A0A' }}>
+      <div className="relative w-full cursor-pointer" style={{ aspectRatio: '16 / 9', background: 'var(--hero)' }}>
         {/* animated stripes */}
         <div
           className="absolute inset-0 animate-stripes"
@@ -71,7 +71,7 @@ export function FullWorkoutCard({ workout, accent = ACCENT_DEFAULT, videoUrl }: 
             className="w-[66px] h-[66px] rounded-full flex items-center justify-center"
             style={{
               background: accent,
-              boxShadow: `0 0 0 8px ${accent}22, 0 12px 30px rgba(0,0,0,0.4)`,
+              boxShadow: '0 12px 30px rgba(0,0,0,0.4)',
             }}
           >
             <svg width="22" height="26" viewBox="0 0 22 26" style={{ marginLeft: 3 }}>
@@ -80,7 +80,7 @@ export function FullWorkoutCard({ workout, accent = ACCENT_DEFAULT, videoUrl }: 
           </div>
         </div>
         {/* scrubber */}
-        <div className="absolute bottom-0 left-0 right-0 h-[3px]" style={{ background: 'rgba(255,255,255,0.1)' }}>
+        <div className="absolute bottom-0 left-0 right-0 h-[3px]" style={{ background: 'rgba(255,255,255,0.18)' }}>
           <div className="h-full" style={{ width: '0%', background: accent }} />
         </div>
       </div>
@@ -92,28 +92,28 @@ export function FullWorkoutCard({ workout, accent = ACCENT_DEFAULT, videoUrl }: 
 function MetadataRow({ workout, accent }: { workout: Workout; accent: string }) {
   const initials = 'EV'
   return (
-    <div className="flex items-center gap-2.5 text-white" style={{ padding: '12px 14px 14px' }}>
+    <div className="flex items-center gap-2.5" style={{ padding: '12px 14px 14px' }}>
       <div
-        className="flex-shrink-0 flex items-center justify-center text-[11px] font-[800] text-black"
+        className="flex-shrink-0 flex items-center justify-center text-[11px] font-[800]"
         style={{
           width: 32, height: 32, borderRadius: '50%',
-          background: `linear-gradient(135deg, ${accent}, ${accent}66)`,
+          background: accent, color: 'var(--accent-on)',
         }}
       >
         {initials}
       </div>
       <div className="flex-1 min-w-0">
-        <div className="text-[13px] font-semibold text-white" style={{ letterSpacing: -0.1 }}>Evlo</div>
-        <div className="font-mono text-[10px] mt-[1px]" style={{ color: 'rgba(255,255,255,0.5)', letterSpacing: 0.3 }}>
+        <div className="text-[13px] font-semibold" style={{ letterSpacing: -0.1, color: 'var(--text-1)' }}>Evlo</div>
+        <div className="font-mono text-[10px] mt-[1px] truncate" style={{ color: 'var(--text-2)', letterSpacing: 0.3 }}>
           {workout.full_video_filename || '—'}
         </div>
       </div>
       <div
         className="font-mono text-[10px] font-bold"
         style={{
-          color: 'rgba(255,255,255,0.55)',
+          color: 'var(--text-2)',
           padding: '5px 10px', borderRadius: 999,
-          background: 'rgba(255,255,255,0.08)',
+          background: 'var(--surface-2)',
           letterSpacing: 1,
         }}
       >

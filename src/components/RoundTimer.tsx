@@ -54,11 +54,11 @@ export function RoundTimer({ round, accent = ACCENT_DEFAULT, running, setRunning
   const progress = phase === 'done' ? 1 : 1 - (remaining / total)
   const mm = String(Math.floor(remaining / 60)).padStart(1, '0')
   const ss = String(remaining % 60).padStart(2, '0')
-  const phaseColor = phase === 'rest' ? '#4FD9A8' : accent
+  const phaseColor = phase === 'rest' ? 'var(--rest)' : accent
   const label = phase === 'work' ? 'WORK' : phase === 'rest' ? 'REST' : 'DONE'
 
   return (
-    <div className="flex items-center gap-3 rounded-timer text-white" style={{ background: 'rgba(255,255,255,0.04)', padding: '10px 12px' }}>
+    <div className="flex items-center gap-3 rounded-timer" style={{ background: 'var(--surface-2)', padding: '10px 12px' }}>
       <div style={{ minWidth: 84 }}>
         <div className="flex items-baseline gap-1">
           <div
@@ -66,7 +66,7 @@ export function RoundTimer({ round, accent = ACCENT_DEFAULT, running, setRunning
             style={{
               letterSpacing: -1,
               fontVariantNumeric: 'tabular-nums',
-              color: phase === 'done' ? 'rgba(255,255,255,0.5)' : '#fff',
+              color: phase === 'done' ? 'var(--text-3)' : 'var(--text-1)',
             }}
           >
             {mm}:{ss}
@@ -75,11 +75,11 @@ export function RoundTimer({ round, accent = ACCENT_DEFAULT, running, setRunning
             {label}
           </div>
         </div>
-        <div className="font-mono text-[9px] mt-[3px]" style={{ letterSpacing: 0.8, color: 'rgba(255,255,255,0.45)' }}>
+        <div className="font-mono text-[9px] mt-[3px]" style={{ letterSpacing: 0.8, color: 'var(--text-3)' }}>
           {currentRound}/{totalRounds} · {workSec}s / {restSec}s
         </div>
       </div>
-      <div className="flex-1 h-1 rounded-sm overflow-hidden" style={{ background: 'rgba(255,255,255,0.1)' }}>
+      <div className="flex-1 h-1 rounded-sm overflow-hidden" style={{ background: 'var(--surface-3)' }}>
         <div
           className="h-full transition-[width] duration-1000 linear"
           style={{ width: `${progress * 100}%`, background: phaseColor }}

@@ -1,6 +1,25 @@
-import type { LibraryCategory } from './types'
+import type { LibraryCategory, ThemeId } from './types'
 
-export const ACCENT_DEFAULT = '#00E5FF'
+// All accent usages resolve to the active theme's CSS variable.
+export const ACCENT_DEFAULT = 'var(--accent)'
+
+export interface ThemeInfo {
+  id: ThemeId
+  name: string
+  blurb: string
+  dark: boolean
+  swatch: { bg: string; surface: string; accent: string }
+}
+
+export const THEMES: ThemeInfo[] = [
+  { id: 'ink',      name: 'Ink',      blurb: 'High-contrast lime',   dark: false, swatch: { bg: '#F3F3F1', surface: '#FFFFFF', accent: '#CCFF00' } },
+  { id: 'midnight', name: 'Midnight', blurb: 'Full dark mode',        dark: true,  swatch: { bg: '#0A0A0B', surface: '#151515', accent: '#CCFF00' } },
+  { id: 'sand',     name: 'Sand',     blurb: 'Warm bone + clay',      dark: false, swatch: { bg: '#ECE3D4', surface: '#FBF7F0', accent: '#C8794D' } },
+  { id: 'forest',   name: 'Forest',   blurb: 'Deep green + cream',    dark: true,  swatch: { bg: '#162420', surface: '#1F332B', accent: '#E9E4D3' } },
+  { id: 'dusk',     name: 'Dusk',     blurb: 'Dusty blue + beige',    dark: false, swatch: { bg: '#D4DDE0', surface: '#F4F6F5', accent: '#D8BE96' } },
+]
+
+export const DEFAULT_THEME: ThemeId = 'midnight'
 
 export const LIBRARY_CATEGORIES: LibraryCategory[] = [
   { id: 'UPPER',     title: 'Upper Body Build', desc: 'Chest, back, shoulders, arms',   hue: 'rgba(255, 220, 80, 0.22)',  accent: '#F5D547' },
@@ -17,6 +36,8 @@ export const DEFAULT_SETTINGS = {
   sound: true,
   haptics: true,
   autoplay: false,
+  theme: DEFAULT_THEME,
+  api_key: '',
 }
 
 export const TYPE_BADGE_COLORS = {

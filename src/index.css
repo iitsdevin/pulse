@@ -13,9 +13,91 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ── Theme tokens ─────────────────────────────────────────────
+   Each palette re-tunes the whole surface system. Tokens:
+   --bg / --surface / --hero / --accent / --accent-ink / --tab-bar
+   Derived (flip with light/dark): --text-1/2/3, --hairline
+   Always-white ramp for the dark hero panel: --on-hero-1/2/3, --on-hero-hair
+   --accent-on: dark glyph/text that sits on an accent fill (#000 reads on all 5)
+   Category + status colors are theme-independent.
+*/
+:root {
+  /* always-white ramp for hero (dark) panels */
+  --on-hero-1: #FFFFFF;
+  --on-hero-2: rgba(255, 255, 255, 0.55);
+  --on-hero-3: rgba(255, 255, 255, 0.45);
+  --on-hero-hair: rgba(255, 255, 255, 0.08);
+  --accent-on: #000000;
+  /* theme-independent */
+  --cat-upper: #F5D547;
+  --cat-lower: #4FD9A8;
+  --cat-build: #FF7A5C;
+  --cat-mat: #B47CFF;
+  --cat-full: #00E5FF;
+  --danger: #FF5C5C;
+  --rest: #4FD9A8;
+}
+
+/* dark-theme text ramp (white) */
+:root[data-theme="midnight"],
+:root[data-theme="forest"] {
+  --text-1: #FFFFFF;
+  --text-2: rgba(255, 255, 255, 0.55);
+  --text-3: rgba(255, 255, 255, 0.45);
+  --hairline: rgba(255, 255, 255, 0.07);
+  --surface-2: rgba(255, 255, 255, 0.06);
+  --surface-3: rgba(255, 255, 255, 0.10);
+}
+
+/* light-theme text ramp (black) */
+:root[data-theme="ink"],
+:root[data-theme="sand"],
+:root[data-theme="dusk"] {
+  --text-1: #000000;
+  --text-2: rgba(0, 0, 0, 0.58);
+  --text-3: rgba(0, 0, 0, 0.42);
+  --hairline: rgba(0, 0, 0, 0.08);
+  --surface-2: rgba(0, 0, 0, 0.05);
+  --surface-3: rgba(0, 0, 0, 0.09);
+}
+
+:root[data-theme="ink"] {
+  --bg: #F3F3F1; --surface: #FFFFFF; --hero: #0A0A0A;
+  --accent: #CCFF00; --accent-ink: #5F7D00; --tab-bar: rgba(255, 255, 255, 0.88);
+}
+:root[data-theme="midnight"] {
+  --bg: #0A0A0B; --surface: #151515; --hero: #000000;
+  --accent: #CCFF00; --accent-ink: #CCFF00; --tab-bar: rgba(10, 10, 10, 0.88);
+}
+:root[data-theme="sand"] {
+  --bg: #ECE3D4; --surface: #FBF7F0; --hero: #2A231D;
+  --accent: #C8794D; --accent-ink: #9C5630; --tab-bar: rgba(251, 247, 240, 0.9);
+}
+:root[data-theme="forest"] {
+  --bg: #162420; --surface: #1F332B; --hero: #0E1814;
+  --accent: #E9E4D3; --accent-ink: #E9E4D3; --tab-bar: rgba(18, 29, 24, 0.9);
+}
+:root[data-theme="dusk"] {
+  --bg: #D4DDE0; --surface: #F4F6F5; --hero: #2C3B45;
+  --accent: #D8BE96; --accent-ink: #8A6A40; --tab-bar: rgba(244, 246, 245, 0.9);
+}
+
+/* default before JS applies the saved theme */
+:root {
+  --bg: #0A0A0B; --surface: #151515; --hero: #000000;
+  --accent: #CCFF00; --accent-ink: #CCFF00; --tab-bar: rgba(10, 10, 10, 0.88);
+  --text-1: #FFFFFF;
+  --text-2: rgba(255, 255, 255, 0.55);
+  --text-3: rgba(255, 255, 255, 0.45);
+  --hairline: rgba(255, 255, 255, 0.07);
+  --surface-2: rgba(255, 255, 255, 0.06);
+  --surface-3: rgba(255, 255, 255, 0.10);
+}
+
 body {
-  background: #0A0A0B;
-  color: #fff;
+  background: var(--bg);
+  color: var(--text-1);
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
 button {

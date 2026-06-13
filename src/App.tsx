@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import { TabBar } from './components/TabBar'
 import type { TabId } from './components/TabBar'
 import { TopBar } from './components/TopBar'
@@ -16,7 +16,7 @@ import { useAuth } from './lib/auth'
 import { LoginScreen } from './components/LoginScreen'
 import type { Workout } from './lib/types'
 import { formatDisplayDate } from './lib/utils'
-import { ACCENT_DEFAULT } from './lib/constants'
+import { ACCENT_DEFAULT, THEMES } from './lib/constants'
 
 export function App() {
   const { manifest } = useAuth()
@@ -26,11 +26,17 @@ export function App() {
 
   const { workouts, todayWorkout, loading, error } = useWorkouts()
   const { settings, update: updateSettings } = useSettings()
+
+  // Apply the selected palette to the document root.
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', settings.theme)
+  }, [settings.theme])
   const { completed, complete: _complete, isCompleted: _isCompleted } = useCompletedWorkouts()
   const personalRecords = usePersonalRecords()
   const { getWorkoutVideoUrl, getDemoVideoUrl } = useVideoManifest()
 
   const accent = ACCENT_DEFAULT
+  const chartAccent = THEMES.find(t => t.id === settings.theme)?.swatch.accent ?? '#CCFF00'
 
   // Active workout for weight logging
   const activeWorkoutId = openWorkout?.workout_id ?? todayWorkout?.workout_id ?? ''
@@ -74,7 +80,7 @@ export function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#0A0A0B' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="font-mono text-[12px] font-bold" style={{ letterSpacing: 2, color: accent }}>
           LOADING PULSE...
         </div>
@@ -84,9 +90,9 @@ export function App() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-3 px-8" style={{ background: '#0A0A0B' }}>
-        <div className="font-mono text-[12px] font-bold" style={{ letterSpacing: 2, color: '#FF5C5C' }}>ERROR</div>
-        <div className="text-[14px] text-center" style={{ color: 'rgba(255,255,255,0.6)' }}>{error}</div>
+      <div className="min-h-screen flex flex-col items-center justify-center gap-3 px-8" style={{ background: 'var(--bg)' }}>
+        <div className="font-mono text-[12px] font-bold" style={{ letterSpacing: 2, color: 'var(--danger)' }}>ERROR</div>
+        <div className="text-[14px] text-center" style={{ color: 'var(--text-2)' }}>{error}</div>
       </div>
     )
   }
@@ -124,7 +130,7 @@ export function App() {
     content = (
       <div className="flex flex-col items-center justify-center px-8 pt-32">
         <div className="font-mono text-[11px] font-bold" style={{ letterSpacing: 2, color: accent }}>NO WORKOUT TODAY</div>
-        <div className="text-[14px] mt-2 text-center" style={{ color: 'rgba(255,255,255,0.5)' }}>
+        <div className="text-[14px] mt-2 text-center" style={{ color: 'var(--text-2)' }}>
           Check the Library for sessions or use Program to generate a weekly plan.
         </div>
       </div>
@@ -153,6 +159,8 @@ export function App() {
         accent={accent}
         completedWorkoutIds={completedIds}
         onOpenWorkout={handleOpenWorkout}
+        apiKey={settings.api_key}
+        onOpenSettings={() => setSettingsOpen(true)}
       />
     )
   } else if (tab === 'stats') {
@@ -162,12 +170,13 @@ export function App() {
         completedWorkouts={completed}
         personalRecords={personalRecords}
         accent={accent}
+        chartAccent={chartAccent}
       />
     )
   }
 
   return (
-    <div className="font-sans min-h-screen" style={{ background: '#0A0A0B' }}>
+    <div className="font-sans min-h-screen" style={{ background: 'var(--bg)' }}>
       <div className="scrollbar-none overflow-y-auto" style={{ paddingTop: openWorkout ? 60 : 0, paddingBottom: 100 }}>
         {content}
       </div>
@@ -180,7 +189,27 @@ export function App() {
         />
       )}
 
-      <TabBar tab={tab} setTab={handleSetTab} accent={accent} />
+      {/* Persistent settings gear for screens whose header has no gear of its own */}
+      {!openWorkout && (tab !== 'today' || !todayWorkout) && (
+        <button
+          onClick={() => setSettingsOpen(true)}
+          aria-label="Settings"
+          className="fixed z-50 flex items-center justify-center p-0 border-none cursor-pointer"
+          style={{
+            top: 'max(env(safe-area-inset-top, 14px), 14px)', right: 14,
+            width: 38, height: 38, borderRadius: 12,
+            background: 'var(--surface)', border: '1px solid var(--hairline)',
+            color: 'var(--text-1)',
+          }}
+        >
+          <svg width="17" height="17" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="2" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M8 1v2M8 13v2M15 8h-2M3 8H1M13 3l-1.4 1.4M4.4 11.6L3 13M13 13l-1.4-1.4M4.4 4.4L3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        </button>
+      )}
+
+      <TabBar tab={tab} setTab={handleSetTab} />
 
       <SettingsSheet
         visible={settingsOpen}
