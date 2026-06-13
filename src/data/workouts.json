@@ -1,0 +1,231 @@
+[
+  {
+    "workout_id": "2026-04-27_mon_upper_body_build",
+    "workout_title": "Upper Body Build",
+    "track": "Build+ 5x per week low intensity cardio",
+    "week_start_date": "2026-04-27",
+    "week_end_date": "2026-05-03",
+    "week_label": "April 27 to May 3",
+    "day_of_week": "mon",
+    "date": "2026-04-27",
+    "muscle_groups": ["Chest", "Biceps", "Shoulders", "Triceps"],
+    "equipment": ["2 dumbbells (heavy)", "2 dumbbells (moderate)"],
+    "total_duration_minutes": "30",
+    "full_video_filename": "2026-04-27_mon_upper_body_build.mp4",
+    "rounds": [
+      {
+        "round_number": 1,
+        "timestamp": "2:00",
+        "exercises": [
+          { "name": "Chest Press", "name_slug": "chest_press", "instructor_weight": "25 lbs", "reps_time": "60 sec", "weight": "" },
+          { "name": "Bicep Curl", "name_slug": "bicep_curl", "instructor_weight": "15 lbs", "reps_time": "45 sec", "weight": "" },
+          { "name": "Shoulder Press", "name_slug": "shoulder_press", "instructor_weight": "20 lbs", "reps_time": "45 sec", "weight": "" }
+        ]
+      },
+      {
+        "round_number": 2,
+        "timestamp": "12:00",
+        "exercises": [
+          { "name": "Incline Press", "name_slug": "incline_press", "instructor_weight": "22 lbs", "reps_time": "60 sec", "weight": "" },
+          { "name": "Hammer Curl", "name_slug": "hammer_curl", "instructor_weight": "15 lbs", "reps_time": "45 sec", "weight": "" },
+          { "name": "Lateral Raise", "name_slug": "lateral_raise", "instructor_weight": "10 lbs", "reps_time": "45 sec", "weight": "" },
+          { "name": "Tricep Extension", "name_slug": "tricep_extension", "instructor_weight": "12 lbs", "reps_time": "45 sec", "weight": "" }
+        ]
+      },
+      {
+        "round_number": 3,
+        "timestamp": "22:00",
+        "exercises": [
+          { "name": "Push-Up", "name_slug": "push_up", "instructor_weight": "", "reps_time": "60 sec", "weight": "" },
+          { "name": "Bent Over Row", "name_slug": "bent_over_row", "instructor_weight": "25 lbs", "reps_time": "60 sec", "weight": "" }
+        ]
+      }
+    ]
+  },
+  {
+    "workout_id": "2026-04-28_tue_lower_body_build",
+    "workout_title": "Lower Body Build",
+    "track": "Build+ 5x per week low intensity cardio",
+    "week_start_date": "2026-04-27",
+    "week_end_date": "2026-05-03",
+    "week_label": "April 27 to May 3",
+    "day_of_week": "tue",
+    "date": "2026-04-28",
+    "muscle_groups": ["Quads", "Glutes", "Hamstrings"],
+    "equipment": ["2 dumbbells (heavy)"],
+    "total_duration_minutes": "35",
+    "full_video_filename": "2026-04-28_tue_lower_body_build.mp4",
+    "rounds": [
+      {
+        "round_number": 1,
+        "timestamp": "2:00",
+        "exercises": [
+          { "name": "Goblet Squat", "name_slug": "goblet_squat", "instructor_weight": "35 lbs", "reps_time": "60 sec", "weight": "" },
+          { "name": "Romanian Deadlift", "name_slug": "romanian_deadlift", "instructor_weight": "35 lbs", "reps_time": "60 sec", "weight": "" },
+          { "name": "Reverse Lunge", "name_slug": "reverse_lunge", "instructor_weight": "25 lbs", "reps_time": "45 sec", "weight": "" }
+        ]
+      },
+      {
+        "round_number": 2,
+        "timestamp": "14:00",
+        "exercises": [
+          { "name": "Sumo Squat", "name_slug": "sumo_squat", "instructor_weight": "40 lbs", "reps_time": "60 sec", "weight": "" },
+          { "name": "Hip Hinge", "name_slug": "hip_hinge", "instructor_weight": "35 lbs", "reps_time": "60 sec", "weight": "" },
+          { "name": "Curtsy Lunge", "name_slug": "curtsy_lunge", "instructor_weight": "20 lbs", "reps_time": "45 sec", "weight": "" }
+        ]
+      }
+    ]
+  },
+  {
+    "workout_id": "2026-04-29_wed_mat_build",
+    "workout_title": "Mat Build",
+    "track": "Build+ 5x per week low intensity cardio",
+    "week_start_date": "2026-04-27",
+    "week_end_date": "2026-05-03",
+    "week_label": "April 27 to May 3",
+    "day_of_week": "wed",
+    "date": "2026-04-29",
+    "muscle_groups": ["Core", "Glutes"],
+    "equipment": ["mat"],
+    "total_duration_minutes": "25",
+    "full_video_filename": "2026-04-29_wed_mat_build.mp4",
+    "rounds": [
+      {
+        "round_number": 1,
+        "timestamp": "1:30",
+        "exercises": [
+          { "name": "Glute Bridge", "name_slug": "glute_bridge", "instructor_weight": "", "reps_time": "60 sec", "weight": "" },
+          { "name": "Clamshell", "name_slug": "clamshell", "instructor_weight": "", "reps_time": "45 sec", "weight": "" },
+          { "name": "Dead Bug", "name_slug": "dead_bug", "instructor_weight": "", "reps_time": "60 sec", "weight": "" }
+        ]
+      },
+      {
+        "round_number": 2,
+        "timestamp": "12:00",
+        "exercises": [
+          { "name": "Single Leg Glute Bridge", "name_slug": "single_leg_glute_bridge", "instructor_weight": "", "reps_time": "45 sec", "weight": "" },
+          { "name": "Fire Hydrant", "name_slug": "fire_hydrant", "instructor_weight": "", "reps_time": "45 sec", "weight": "" },
+          { "name": "Plank", "name_slug": "plank", "instructor_weight": "", "reps_time": "60 sec", "weight": "" }
+        ]
+      }
+    ]
+  },
+  {
+    "workout_id": "2026-04-30_thu_upper_body_build",
+    "workout_title": "Upper Body Build",
+    "track": "Build+ 5x per week low intensity cardio",
+    "week_start_date": "2026-04-27",
+    "week_end_date": "2026-05-03",
+    "week_label": "April 27 to May 3",
+    "day_of_week": "thu",
+    "date": "2026-04-30",
+    "muscle_groups": ["Back", "Shoulders", "Triceps"],
+    "equipment": ["2 dumbbells (heavy)", "2 dumbbells (moderate)"],
+    "total_duration_minutes": "30",
+    "full_video_filename": "2026-04-30_thu_upper_body_build.mp4",
+    "rounds": [
+      {
+        "round_number": 1,
+        "timestamp": "2:00",
+        "exercises": [
+          { "name": "Arnold Press", "name_slug": "arnold_press", "instructor_weight": "20 lbs", "reps_time": "60 sec", "weight": "" },
+          { "name": "Bent Over Row", "name_slug": "bent_over_row", "instructor_weight": "30 lbs", "reps_time": "60 sec", "weight": "" },
+          { "name": "Skull Crusher", "name_slug": "skull_crusher", "instructor_weight": "15 lbs", "reps_time": "45 sec", "weight": "" }
+        ]
+      },
+      {
+        "round_number": 2,
+        "timestamp": "12:00",
+        "exercises": [
+          { "name": "Upright Row", "name_slug": "upright_row", "instructor_weight": "20 lbs", "reps_time": "60 sec", "weight": "" },
+          { "name": "Single Arm Row", "name_slug": "single_arm_row", "instructor_weight": "30 lbs", "reps_time": "45 sec", "weight": "" },
+          { "name": "Tricep Kickback", "name_slug": "tricep_kickback", "instructor_weight": "12 lbs", "reps_time": "45 sec", "weight": "" }
+        ]
+      },
+      {
+        "round_number": 3,
+        "timestamp": "22:00",
+        "exercises": [
+          { "name": "Front Raise", "name_slug": "front_raise", "instructor_weight": "12 lbs", "reps_time": "45 sec", "weight": "" },
+          { "name": "Renegade Row", "name_slug": "renegade_row", "instructor_weight": "25 lbs", "reps_time": "60 sec", "weight": "" }
+        ]
+      }
+    ]
+  },
+  {
+    "workout_id": "2026-05-01_fri_lower_body_build",
+    "workout_title": "Lower Body Build",
+    "track": "Build+ 5x per week low intensity cardio",
+    "week_start_date": "2026-04-27",
+    "week_end_date": "2026-05-03",
+    "week_label": "April 27 to May 3",
+    "day_of_week": "fri",
+    "date": "2026-05-01",
+    "muscle_groups": ["Quads", "Glutes", "Hamstrings", "Calves"],
+    "equipment": ["2 dumbbells (heavy)"],
+    "total_duration_minutes": "35",
+    "full_video_filename": "2026-05-01_fri_lower_body_build.mp4",
+    "rounds": [
+      {
+        "round_number": 1,
+        "timestamp": "2:00",
+        "exercises": [
+          { "name": "Squat", "name_slug": "squat", "instructor_weight": "40 lbs", "reps_time": "60 sec", "weight": "" },
+          { "name": "Deadlift", "name_slug": "deadlift", "instructor_weight": "40 lbs", "reps_time": "60 sec", "weight": "" },
+          { "name": "Step Up", "name_slug": "step_up", "instructor_weight": "25 lbs", "reps_time": "45 sec", "weight": "" }
+        ]
+      },
+      {
+        "round_number": 2,
+        "timestamp": "14:00",
+        "exercises": [
+          { "name": "Bulgarian Split Squat", "name_slug": "bulgarian_split_squat", "instructor_weight": "30 lbs", "reps_time": "45 sec", "weight": "" },
+          { "name": "Good Morning", "name_slug": "good_morning", "instructor_weight": "25 lbs", "reps_time": "60 sec", "weight": "" },
+          { "name": "Calf Raise", "name_slug": "calf_raise", "instructor_weight": "", "reps_time": "60 sec", "weight": "" }
+        ]
+      }
+    ]
+  },
+  {
+    "workout_id": "2026-05-02_sat_full_body_build",
+    "workout_title": "Full Body Build",
+    "track": "Build+ 5x per week low intensity cardio",
+    "week_start_date": "2026-04-27",
+    "week_end_date": "2026-05-03",
+    "week_label": "April 27 to May 3",
+    "day_of_week": "sat",
+    "date": "2026-05-02",
+    "muscle_groups": ["Chest", "Quads", "Glutes", "Shoulders", "Core"],
+    "equipment": ["2 dumbbells (heavy)", "2 dumbbells (moderate)"],
+    "total_duration_minutes": "40",
+    "full_video_filename": "2026-05-02_sat_full_body_build.mp4",
+    "rounds": [
+      {
+        "round_number": 1,
+        "timestamp": "2:00",
+        "exercises": [
+          { "name": "Squat Press", "name_slug": "squat_press", "instructor_weight": "20 lbs", "reps_time": "60 sec", "weight": "" },
+          { "name": "Chest Press", "name_slug": "chest_press", "instructor_weight": "25 lbs", "reps_time": "60 sec", "weight": "" },
+          { "name": "Deadlift Row", "name_slug": "deadlift_row", "instructor_weight": "30 lbs", "reps_time": "60 sec", "weight": "" }
+        ]
+      },
+      {
+        "round_number": 2,
+        "timestamp": "14:00",
+        "exercises": [
+          { "name": "Lunge Curl", "name_slug": "lunge_curl", "instructor_weight": "15 lbs", "reps_time": "45 sec", "weight": "" },
+          { "name": "Push-Up", "name_slug": "push_up", "instructor_weight": "", "reps_time": "60 sec", "weight": "" },
+          { "name": "Plank Row", "name_slug": "plank_row", "instructor_weight": "20 lbs", "reps_time": "45 sec", "weight": "" }
+        ]
+      },
+      {
+        "round_number": 3,
+        "timestamp": "26:00",
+        "exercises": [
+          { "name": "Burpee", "name_slug": "burpee", "instructor_weight": "", "reps_time": "60 sec", "weight": "" },
+          { "name": "Mountain Climber", "name_slug": "mountain_climber", "instructor_weight": "", "reps_time": "45 sec", "weight": "" }
+        ]
+      }
+    ]
+  }
+]
