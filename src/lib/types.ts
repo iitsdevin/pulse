@@ -27,6 +27,9 @@ export interface Workout {
   total_duration_minutes: string
   full_video_filename: string
   rounds: Round[]
+  // Optional per-session timing (custom sessions); falls back to global settings.
+  work_sec?: number
+  rest_sec?: number
 }
 
 // Derived/enriched types used in the UI

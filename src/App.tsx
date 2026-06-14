@@ -3,6 +3,9 @@ import { TabBar } from './components/TabBar'
 import type { TabId } from './components/TabBar'
 import { TopBar } from './components/TopBar'
 import { SettingsSheet } from './components/SettingsSheet'
+import { CustomSessionSheet } from './components/CustomSessionSheet'
+import { SessionRunner } from './components/SessionRunner'
+import { buildCustomSession, type CustomSessionInput } from './lib/sessionBuilder'
 import { TodayScreen } from './screens/TodayScreen'
 import { HistoryScreen } from './screens/HistoryScreen'
 import { LibraryScreen } from './screens/LibraryScreen'
@@ -23,6 +26,8 @@ export function App() {
   const [tab, setTab] = useState<TabId>('today')
   const [openWorkout, setOpenWorkout] = useState<Workout | null>(null)
   const [settingsOpen, setSettingsOpen] = useState(false)
+  const [customOpen, setCustomOpen] = useState(false)
+  const [runner, setRunner] = useState<Workout | null>(null)
 
   const { workouts, todayWorkout, loading, error } = useWorkouts()
   const { settings, update: updateSettings } = useSettings()
@@ -31,7 +36,7 @@ export function App() {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', settings.theme)
   }, [settings.theme])
-  const { completed, complete: _complete, isCompleted: _isCompleted } = useCompletedWorkouts()
+  const { completed, complete: markComplete, isCompleted: _isCompleted } = useCompletedWorkouts()
   const personalRecords = usePersonalRecords()
   const { getWorkoutVideoUrl, getDemoVideoUrl } = useVideoManifest()
 
@@ -73,6 +78,20 @@ export function App() {
     setOpenWorkout(null)
   }, [])
 
+  const handleStartCustom = useCallback((input: CustomSessionInput) => {
+    const session = buildCustomSession(input, workouts, slug => !!getDemoVideoUrl(slug))
+    setCustomOpen(false)
+    setOpenWorkout(session)
+  }, [workouts, getDemoVideoUrl])
+
+  const isCustomSession = (w: Workout | null) => !!w && w.workout_id.startsWith('custom_')
+
+  // A session may carry its own work/rest timing (custom sessions).
+  const effectiveSettings = (w: Workout | null) =>
+    w && (w.work_sec != null || w.rest_sec != null)
+      ? { ...settings, work_sec: w.work_sec ?? settings.work_sec, rest_sec: w.rest_sec ?? settings.rest_sec }
+      : settings
+
   // Gate the whole app behind login. The decrypted manifest is what unlocks video.
   if (!manifest) {
     return <LoginScreen />
@@ -104,12 +123,14 @@ export function App() {
         workout={openWorkout}
         accent={accent}
         isToday={false}
-        settings={settings}
+        settings={effectiveSettings(openWorkout)}
         onOpenSettings={() => setSettingsOpen(true)}
         workoutVideoUrl={workoutVideoUrl}
         demoVideoUrls={demoVideoUrls}
         loggedWeights={loggedWeights}
         onWeightChange={logWeight}
+        onStartGuided={() => setRunner(openWorkout)}
+        isCustom={isCustomSession(openWorkout)}
       />
     )
   } else if (tab === 'today' && todayWorkout) {
@@ -124,6 +145,8 @@ export function App() {
         demoVideoUrls={demoVideoUrls}
         loggedWeights={loggedWeights}
         onWeightChange={logWeight}
+        onStartGuided={() => setRunner(todayWorkout)}
+        onCustom={() => setCustomOpen(true)}
       />
     )
   } else if (tab === 'today' && !todayWorkout) {
@@ -131,8 +154,15 @@ export function App() {
       <div className="flex flex-col items-center justify-center px-8 pt-32">
         <div className="font-mono text-[11px] font-bold" style={{ letterSpacing: 2, color: accent }}>NO WORKOUT TODAY</div>
         <div className="text-[14px] mt-2 text-center" style={{ color: 'var(--text-2)' }}>
-          Check the Library for sessions or use Program to generate a weekly plan.
+          Build your own session from real Evlo movements, or browse the Library.
         </div>
+        <button
+          onClick={() => setCustomOpen(true)}
+          className="mt-6 inline-flex items-center gap-2 font-mono text-[12px] font-bold border-none cursor-pointer"
+          style={{ background: accent, color: 'var(--accent-on)', padding: '15px 26px', borderRadius: 14, letterSpacing: 1.2 }}
+        >
+          ＋ CUSTOM SESSION
+        </button>
       </div>
     )
   } else if (tab === 'history') {
@@ -217,6 +247,25 @@ export function App() {
         settings={settings}
         onUpdate={updateSettings}
       />
+
+      <CustomSessionSheet
+        visible={customOpen}
+        onClose={() => setCustomOpen(false)}
+        onStart={handleStartCustom}
+      />
+
+      {runner && (
+        <SessionRunner
+          workout={runner}
+          getDemoVideoUrl={getDemoVideoUrl}
+          settings={settings}
+          onClose={() => setRunner(null)}
+          onComplete={() => {
+            const total = runner.rounds.reduce((a, r) => a + r.exercises.length, 0)
+            markComplete(runner.workout_id, total, total)
+          }}
+        />
+      )}
     </div>
   )
 }

@@ -15,6 +15,9 @@ interface TodayScreenProps {
   demoVideoUrls?: Record<string, string>
   loggedWeights?: Record<string, string>
   onWeightChange?: (slug: string, weight: string) => void
+  onStartGuided?: () => void
+  onCustom?: () => void
+  isCustom?: boolean
 }
 
 export function TodayScreen({
@@ -27,6 +30,9 @@ export function TodayScreen({
   demoVideoUrls = {},
   loggedWeights = {},
   onWeightChange,
+  onStartGuided,
+  onCustom,
+  isCustom = false,
 }: TodayScreenProps) {
   const [completed, setCompleted] = useState<Record<string, boolean>>({})
 
@@ -48,19 +54,47 @@ export function TodayScreen({
         onOpenSettings={onOpenSettings}
       />
 
-      <FullWorkoutCard
-        workout={workout}
-        accent={accent}
-        videoUrl={workoutVideoUrl}
-      />
+      {!isCustom && (
+        <FullWorkoutCard
+          workout={workout}
+          accent={accent}
+          videoUrl={workoutVideoUrl}
+        />
+      )}
+
+      {/* guided session + custom actions */}
+      {(onStartGuided || onCustom) && (
+        <div className="flex gap-2.5 px-4 pt-3.5">
+          {onStartGuided && (
+            <button
+              onClick={onStartGuided}
+              className="flex-1 inline-flex items-center justify-center gap-2 font-mono text-[12px] font-bold border-none cursor-pointer"
+              style={{ background: accent, color: 'var(--accent-on)', padding: '14px 0', borderRadius: 14, letterSpacing: 1 }}
+            >
+              <svg width="13" height="15" viewBox="0 0 13 15"><path d="M0 0L13 7.5L0 15Z" fill="var(--accent-on)" /></svg>
+              START GUIDED SESSION
+            </button>
+          )}
+          {onCustom && (
+            <button
+              onClick={onCustom}
+              aria-label="Build custom session"
+              className="inline-flex items-center justify-center font-mono text-[12px] font-bold border-none cursor-pointer"
+              style={{ background: 'var(--surface)', color: 'var(--text-1)', border: '1px solid var(--hairline)', padding: '0 18px', borderRadius: 14, letterSpacing: 1 }}
+            >
+              ＋ CUSTOM
+            </button>
+          )}
+        </div>
+      )}
 
       {/* circuit breakdown */}
       <div className="flex flex-col gap-3 px-4 pt-4">
         <div className="flex items-center justify-between px-1 pt-1 pb-0.5">
-          <div className="font-mono text-[11px] font-bold" style={{ letterSpacing: 2, color: 'rgba(255,255,255,0.6)' }}>
+          <div className="font-mono text-[11px] font-bold" style={{ letterSpacing: 2, color: 'var(--text-2)' }}>
             CIRCUIT BREAKDOWN
           </div>
-          <div className="font-mono text-[11px] font-bold" style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <div className="font-mono text-[11px] font-bold" style={{ color: 'var(--text-3)' }}>
             {workout.rounds.length} rounds · tap ▶ to start
           </div>
         </div>
