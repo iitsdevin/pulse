@@ -18,6 +18,8 @@ interface TodayScreenProps {
   onStartGuided?: () => void
   onCustom?: () => void
   isCustom?: boolean
+  isFav?: boolean
+  onToggleFav?: () => void
 }
 
 export function TodayScreen({
@@ -33,6 +35,8 @@ export function TodayScreen({
   onStartGuided,
   onCustom,
   isCustom = false,
+  isFav,
+  onToggleFav,
 }: TodayScreenProps) {
   const [completed, setCompleted] = useState<Record<string, boolean>>({})
 
@@ -52,6 +56,8 @@ export function TodayScreen({
         isToday={isToday}
         pct={pct}
         onOpenSettings={onOpenSettings}
+        isFav={isFav}
+        onToggleFav={onToggleFav}
       />
 
       {!isCustom && (

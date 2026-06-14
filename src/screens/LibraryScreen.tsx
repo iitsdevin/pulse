@@ -8,10 +8,13 @@ interface LibraryScreenProps {
   workouts: Workout[]
   accent?: string
   onOpen: (workout: Workout) => void
+  savedWorkouts?: Workout[]
 }
 
-export function LibraryScreen({ workouts, accent = ACCENT_DEFAULT, onOpen }: LibraryScreenProps) {
-  const [active, setActive] = useState<LibraryCategoryId>(LIBRARY_CATEGORIES[0].id)
+type TabId = LibraryCategoryId | 'SAVED'
+
+export function LibraryScreen({ workouts, accent = ACCENT_DEFAULT, onOpen, savedWorkouts = [] }: LibraryScreenProps) {
+  const [active, setActive] = useState<TabId>(LIBRARY_CATEGORIES[0].id)
 
   // Group workouts by library category
   const sessionsByCat: Record<LibraryCategoryId, Workout[]> = {
@@ -22,8 +25,9 @@ export function LibraryScreen({ workouts, accent = ACCENT_DEFAULT, onOpen }: Lib
     sessionsByCat[cat].push(w)
   }
 
-  const activeCat = LIBRARY_CATEGORIES.find(c => c.id === active)!
-  const sessions = sessionsByCat[active]
+  const SAVED_VIEW = { title: 'Saved', desc: 'Your hearted sessions', hue: 'rgba(127,127,127,0.14)', accent }
+  const view = active === 'SAVED' ? SAVED_VIEW : LIBRARY_CATEGORIES.find(c => c.id === active)!
+  const sessions = active === 'SAVED' ? savedWorkouts : sessionsByCat[active as LibraryCategoryId]
   const totalSessions = Object.values(sessionsByCat).reduce((a, s) => a + s.length, 0)
 
   return (
@@ -40,6 +44,21 @@ export function LibraryScreen({ workouts, accent = ACCENT_DEFAULT, onOpen }: Lib
 
       {/* category chip rail */}
       <div className="flex gap-2 overflow-x-auto scrollbar-none" style={{ padding: '14px 16px 4px' }}>
+        <button
+          onClick={() => setActive('SAVED')}
+          className="flex-shrink-0 font-mono text-[10px] font-bold uppercase inline-flex items-center gap-1.5 border-none cursor-pointer"
+          style={{
+            padding: '9px 14px', borderRadius: 999, letterSpacing: 1.2,
+            background: active === 'SAVED' ? 'var(--text-1)' : 'var(--surface-2)',
+            color: active === 'SAVED' ? 'var(--bg)' : 'var(--text-2)',
+          }}
+        >
+          <svg width="10" height="10" viewBox="0 0 18 18" fill={active === 'SAVED' ? 'var(--bg)' : accent}>
+            <path d="M9 15.5C9 15.5 2 11.5 2 6.6 2 4.3 3.8 2.8 5.9 2.8 7.2 2.8 8.4 3.5 9 4.6 9.6 3.5 10.8 2.8 12.1 2.8 14.2 2.8 16 4.3 16 6.6 16 11.5 9 15.5 9 15.5Z" />
+          </svg>
+          Saved
+          <span className="text-[9px] opacity-70 ml-0.5">{savedWorkouts.length}</span>
+        </button>
         {LIBRARY_CATEGORIES.map(c => {
           const isActive = active === c.id
           return (
@@ -68,14 +87,14 @@ export function LibraryScreen({ workouts, accent = ACCENT_DEFAULT, onOpen }: Lib
         <div
           className="flex items-center justify-between"
           style={{
-            background: `linear-gradient(135deg, ${activeCat.hue}, transparent 70%), var(--surface)`,
+            background: `linear-gradient(135deg, ${view.hue}, transparent 70%), var(--surface)`,
             borderRadius: 20, padding: '14px 16px',
             border: '1px solid var(--hairline)',
           }}
         >
           <div>
-            <div className="text-[20px] font-[800]" style={{ letterSpacing: -0.5, color: 'var(--text-1)' }}>{activeCat.title}</div>
-            <div className="text-[12px] mt-0.5" style={{ color: 'var(--text-2)' }}>{activeCat.desc}</div>
+            <div className="text-[20px] font-[800]" style={{ letterSpacing: -0.5, color: 'var(--text-1)' }}>{view.title}</div>
+            <div className="text-[12px] mt-0.5" style={{ color: 'var(--text-2)' }}>{view.desc}</div>
           </div>
           <div className="font-mono text-right">
             <div className="text-[10px] font-bold" style={{ letterSpacing: 1, color: 'var(--text-2)' }}>VIDEOS</div>
@@ -83,6 +102,17 @@ export function LibraryScreen({ workouts, accent = ACCENT_DEFAULT, onOpen }: Lib
           </div>
         </div>
       </div>
+
+      {/* empty saved state */}
+      {active === 'SAVED' && sessions.length === 0 && (
+        <div className="px-8 pt-10 flex flex-col items-center text-center">
+          <svg width="34" height="34" viewBox="0 0 18 18" fill="none" style={{ opacity: 0.4 }}>
+            <path d="M9 15.5C9 15.5 2 11.5 2 6.6 2 4.3 3.8 2.8 5.9 2.8 7.2 2.8 8.4 3.5 9 4.6 9.6 3.5 10.8 2.8 12.1 2.8 14.2 2.8 16 4.3 16 6.6 16 11.5 9 15.5 9 15.5Z" stroke="var(--text-3)" strokeWidth="1.4" />
+          </svg>
+          <div className="text-[14px] mt-3" style={{ color: 'var(--text-2)' }}>No saved sessions yet</div>
+          <div className="font-mono text-[10px] mt-1.5" style={{ color: 'var(--text-3)' }}>Tap the ♥ on any workout to save it here</div>
+        </div>
+      )}
 
       {/* video grid */}
       <div className="grid grid-cols-2 gap-2.5 px-4 pt-3">
@@ -102,7 +132,7 @@ export function LibraryScreen({ workouts, accent = ACCENT_DEFAULT, onOpen }: Lib
               <div
                 className="absolute inset-0 animate-stripes"
                 style={{
-                  background: `linear-gradient(135deg, ${activeCat.hue}, transparent 60%), repeating-linear-gradient(135deg, #121212 0 10px, #0c0c0c 10px 20px)`,
+                  backgroundImage: `linear-gradient(135deg, ${view.hue}, transparent 60%), repeating-linear-gradient(135deg, #121212 0 10px, #0c0c0c 10px 20px)`,
                   backgroundSize: '48px 48px',
                 }}
               />
@@ -113,12 +143,12 @@ export function LibraryScreen({ workouts, accent = ACCENT_DEFAULT, onOpen }: Lib
                   className="w-[38px] h-[38px] rounded-full flex items-center justify-center"
                   style={{
                     background: 'rgba(0,0,0,0.6)',
-                    border: `1.5px solid ${activeCat.accent}`,
+                    border: `1.5px solid ${view.accent}`,
                     backdropFilter: 'blur(8px)',
                   }}
                 >
                   <svg width="12" height="14" viewBox="0 0 12 14" style={{ marginLeft: 2 }}>
-                    <path d="M0 0L12 7L0 14Z" fill={activeCat.accent} />
+                    <path d="M0 0L12 7L0 14Z" fill={view.accent} />
                   </svg>
                 </div>
               </div>

@@ -92,6 +92,13 @@ export interface AIProgramEntry {
   program: Record<string, string>  // { monday: workout_id, tuesday: workout_id, ... }
 }
 
+export interface FavouriteEntry {
+  id?: number
+  workout_id: string
+  saved_at: string
+  workout: Workout  // full snapshot so custom sessions survive
+}
+
 export type ThemeId = 'ink' | 'midnight' | 'sand' | 'forest' | 'dusk'
 
 export interface AppSettings {

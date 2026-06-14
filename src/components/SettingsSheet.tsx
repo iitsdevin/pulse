@@ -13,7 +13,7 @@ interface SettingsSheetProps {
 }
 
 export function SettingsSheet({ visible, onClose, settings, onUpdate }: SettingsSheetProps) {
-  const { manifest } = useAuth()
+  const { manifest, logout } = useAuth()
   const [newUser, setNewUser] = useState('')
   const [newPass, setNewPass] = useState('')
   const [credDone, setCredDone] = useState(false)
@@ -201,6 +201,18 @@ export function SettingsSheet({ visible, onClose, settings, onUpdate }: Settings
                 style={{ background: 'var(--accent)', color: 'var(--accent-on)', padding: '11px 0', borderRadius: 10, letterSpacing: 1 }}
               >
                 {credDone ? 'DOWNLOADED ✓ — REPLACE & PUSH' : 'DOWNLOAD NEW CREDENTIALS FILE'}
+              </button>
+            </div>
+            <div className="mt-3 pt-3" style={{ borderTop: '1px solid var(--hairline)' }}>
+              <div className="font-mono text-[10px] mb-2" style={{ color: 'var(--text-3)' }}>
+                You stay logged in on this device. Log out to require the password again.
+              </div>
+              <button
+                onClick={logout}
+                className="w-full font-mono text-[12px] font-bold border-none cursor-pointer"
+                style={{ background: 'var(--surface-3)', color: 'var(--text-1)', padding: '11px 0', borderRadius: 10, letterSpacing: 1 }}
+              >
+                LOG OUT
               </button>
             </div>
           </div>,

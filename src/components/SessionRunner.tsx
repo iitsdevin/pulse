@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import type { Workout, AppSettings } from '../lib/types'
 import { parseRepsTime } from '../lib/utils'
+import { DriveFrame } from './DriveFrame'
 
 interface SessionRunnerProps {
   workout: Workout
@@ -178,7 +179,7 @@ export function SessionRunner({ workout, getDemoVideoUrl, settings, onClose, onC
       {/* demo video */}
       <div className="mx-4 mt-4 rounded-2xl overflow-hidden" style={{ aspectRatio: '16 / 9', background: 'var(--hero)', position: 'relative' }}>
         {demoUrl ? (
-          <iframe key={shownEx?.name_slug} src={demoUrl} allow="autoplay; fullscreen" allowFullScreen className="w-full h-full border-0" title={shownEx?.name || 'demo'} />
+          <DriveFrame url={demoUrl} title={shownEx?.name || 'demo'} />
         ) : (
           <div className="w-full h-full flex items-center justify-center font-mono text-[11px]" style={{ color: 'var(--on-hero-3)' }}>NO DEMO</div>
         )}

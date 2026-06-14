@@ -16,14 +16,15 @@ const Ctx = createContext<AuthCtx>({
 
 export const useAuth = () => useContext(Ctx)
 
-// Decrypted manifest is cached for the browser session so reloads don't re-prompt.
-const SESSION_KEY = 'pulse_manifest'
+// Decrypted manifest is cached in localStorage so the user stays logged in on
+// this device across browser restarts (until they explicitly log out).
+const STORE_KEY = 'pulse_manifest'
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [manifest, setManifest] = useState<VideoManifest | null>(null)
 
   useEffect(() => {
-    const cached = sessionStorage.getItem(SESSION_KEY)
+    const cached = localStorage.getItem(STORE_KEY) ?? sessionStorage.getItem(STORE_KEY)
     if (cached) {
       try { setManifest(JSON.parse(cached) as VideoManifest) } catch { /* ignore */ }
     }
@@ -34,7 +35,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const blob = (await fetch(`${import.meta.env.BASE_URL}video-manifest.enc.json`).then((r) => r.json())) as EncBlob
       const m = await decryptManifest(blob, username, password)
       setManifest(m)
-      sessionStorage.setItem(SESSION_KEY, JSON.stringify(m))
+      localStorage.setItem(STORE_KEY, JSON.stringify(m))
       return true
     } catch {
       return false
@@ -42,7 +43,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const logout = useCallback(() => {
-    sessionStorage.removeItem(SESSION_KEY)
+    localStorage.removeItem(STORE_KEY)
+    sessionStorage.removeItem(STORE_KEY)
     setManifest(null)
   }, [])
 

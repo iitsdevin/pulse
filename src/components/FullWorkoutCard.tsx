@@ -1,6 +1,7 @@
 import type { Workout } from '../lib/types'
 import { parseDuration } from '../lib/utils'
 import { ACCENT_DEFAULT } from '../lib/constants'
+import { DriveFrame } from './DriveFrame'
 
 interface FullWorkoutCardProps {
   workout: Workout
@@ -19,13 +20,7 @@ export function FullWorkoutCard({ workout, accent = ACCENT_DEFAULT, videoUrl }: 
       <div className="mx-4 mt-3.5 overflow-hidden" style={{ background: 'var(--surface)', borderRadius: 22, border: '1px solid var(--hairline)' }}>
         <div className="relative w-full" style={{ aspectRatio: '16 / 9', background: 'var(--hero)' }}>
           {isDrive ? (
-            <iframe
-              src={videoUrl}
-              allow="autoplay; fullscreen"
-              allowFullScreen
-              className="w-full h-full border-0"
-              title={workout.workout_title}
-            />
+            <DriveFrame url={videoUrl} title={workout.workout_title} />
           ) : (
             <video src={videoUrl} controls playsInline className="w-full h-full object-cover" />
           )}
@@ -43,7 +38,7 @@ export function FullWorkoutCard({ workout, accent = ACCENT_DEFAULT, videoUrl }: 
         <div
           className="absolute inset-0 animate-stripes"
           style={{
-            background: 'repeating-linear-gradient(135deg, #131313 0 14px, #0b0b0b 14px 28px)',
+            backgroundImage: 'repeating-linear-gradient(135deg, #131313 0 14px, #0b0b0b 14px 28px)',
             backgroundSize: '48px 48px',
           }}
         />

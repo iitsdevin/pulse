@@ -5,6 +5,8 @@ import type {
   PersonalRecord,
   AIProgramEntry,
   AppSettings,
+  FavouriteEntry,
+  Workout,
 } from './types'
 import { DEFAULT_SETTINGS } from './constants'
 
@@ -14,6 +16,7 @@ class PulseDB extends Dexie {
   personalRecords!: EntityTable<PersonalRecord, 'id'>
   aiPrograms!: EntityTable<AIProgramEntry, 'id'>
   settings!: EntityTable<AppSettings, 'id'>
+  favourites!: EntityTable<FavouriteEntry, 'id'>
 
   constructor() {
     super('pulse')
@@ -23,6 +26,14 @@ class PulseDB extends Dexie {
       personalRecords: '++id, exercise_slug',
       aiPrograms: '++id, created_at',
       settings: '++id',
+    })
+    this.version(2).stores({
+      completedWorkouts: '++id, workout_id, completed_at',
+      loggedWeights: '++id, workout_id, exercise_slug, logged_at',
+      personalRecords: '++id, exercise_slug',
+      aiPrograms: '++id, created_at',
+      settings: '++id',
+      favourites: '++id, workout_id, saved_at',
     })
   }
 }
@@ -157,4 +168,19 @@ export async function getLatestAIProgram(): Promise<AIProgramEntry | null> {
 
 export async function getAllAIPrograms(): Promise<AIProgramEntry[]> {
   return db.aiPrograms.orderBy('created_at').reverse().toArray()
+}
+
+// ── Favourites ────────────────────────────────────────────────
+export async function getFavourites(): Promise<FavouriteEntry[]> {
+  return db.favourites.orderBy('saved_at').reverse().toArray()
+}
+
+export async function addFavourite(workout: Workout): Promise<void> {
+  const existing = await db.favourites.where('workout_id').equals(workout.workout_id).first()
+  if (existing) return
+  await db.favourites.add({ workout_id: workout.workout_id, saved_at: new Date().toISOString(), workout })
+}
+
+export async function removeFavourite(workout_id: string): Promise<void> {
+  await db.favourites.where('workout_id').equals(workout_id).delete()
 }

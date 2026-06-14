@@ -3,7 +3,6 @@ import { inferLibraryCategory } from './types'
 import { formatDateISO } from './utils'
 
 export type FocusId = 'upper' | 'lower' | 'full' | 'mat' | 'recovery' | 'mobility'
-export type IntensityId = 'chill' | 'standard' | 'spicy'
 
 export interface FocusOption {
   id: FocusId
@@ -20,12 +19,6 @@ export const FOCUS_OPTIONS: FocusOption[] = [
   { id: 'recovery', label: 'Recovery',   desc: 'Gentle, restorative',           muscles: ['Mobility', 'Recovery'] },
   { id: 'mobility', label: 'Mobility',   desc: 'Range of motion + control',     muscles: ['Mobility'] },
 ]
-
-const INTENSITY: Record<IntensityId, { work: number; rest: number; label: string }> = {
-  chill:    { work: 30, rest: 25, label: 'Chill' },
-  standard: { work: 40, rest: 20, label: 'Standard' },
-  spicy:    { work: 45, rest: 15, label: 'Spicy' },
-}
 
 // Focus → which Evlo library category to pull exercises from.
 const FOCUS_CATEGORY: Record<FocusId, LibraryCategoryId> = {
@@ -82,7 +75,8 @@ const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n
 export interface CustomSessionInput {
   focus: FocusId
   durationMin: number
-  intensity: IntensityId
+  workSec: number
+  restSec: number
 }
 
 // Generates a Workout-shaped circuit from real Evlo exercises.
@@ -91,15 +85,16 @@ export function buildCustomSession(
   workouts: Workout[],
   hasDemo: (slug: string) => boolean,
 ): Workout {
-  const { focus, durationMin, intensity } = input
-  const { work, rest } = INTENSITY[intensity]
+  const { focus, durationMin } = input
+  const work = Math.max(5, input.workSec)
+  const rest = Math.max(0, input.restSec)
   const focusOpt = FOCUS_OPTIONS.find(f => f.id === focus)!
 
   const pool = buildPool(focus, workouts, hasDemo)
   const secPerEx = work + rest
   const exPerRound = clamp(Math.round(durationMin / 8) + 2, 3, 6)
   const setSize = Math.min(exPerRound, pool.length || exPerRound)
-  const numRounds = clamp(Math.round((durationMin * 60) / (Math.max(setSize, 1) * secPerEx)), 2, 5)
+  const numRounds = clamp(Math.round((durationMin * 60) / (Math.max(setSize, 1) * Math.max(secPerEx, 1))), 2, 5)
 
   const set = shuffle(pool).slice(0, setSize)
 
@@ -121,7 +116,7 @@ export function buildCustomSession(
   return {
     workout_id: id,
     workout_title: `Custom ${focusOpt.label}`,
-    track: `Custom · ${INTENSITY[intensity].label}`,
+    track: `Custom · ${work}s on / ${rest}s off`,
     week_start_date: today,
     week_end_date: today,
     week_label: 'Custom Session',
@@ -136,5 +131,3 @@ export function buildCustomSession(
     rest_sec: rest,
   }
 }
-
-export { INTENSITY }

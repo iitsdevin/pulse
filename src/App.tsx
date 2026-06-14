@@ -14,6 +14,7 @@ import { StatsScreen } from './screens/StatsScreen'
 import { useWorkouts } from './hooks/useWorkouts'
 import { useSettings } from './hooks/useSettings'
 import { useCompletedWorkouts, useLoggedWeights, usePersonalRecords } from './hooks/useDexie'
+import { useFavourites } from './hooks/useFavourites'
 import { useVideoManifest } from './hooks/useVideoManifest'
 import { useAuth } from './lib/auth'
 import { LoginScreen } from './components/LoginScreen'
@@ -38,6 +39,7 @@ export function App() {
   }, [settings.theme])
   const { completed, complete: markComplete, isCompleted: _isCompleted } = useCompletedWorkouts()
   const personalRecords = usePersonalRecords()
+  const { favourites, isFavourite, toggle: toggleFav } = useFavourites()
   const { getWorkoutVideoUrl, getDemoVideoUrl } = useVideoManifest()
 
   const accent = ACCENT_DEFAULT
@@ -131,6 +133,8 @@ export function App() {
         onWeightChange={logWeight}
         onStartGuided={() => setRunner(openWorkout)}
         isCustom={isCustomSession(openWorkout)}
+        isFav={isFavourite(openWorkout.workout_id)}
+        onToggleFav={() => toggleFav(openWorkout)}
       />
     )
   } else if (tab === 'today' && todayWorkout) {
@@ -147,6 +151,8 @@ export function App() {
         onWeightChange={logWeight}
         onStartGuided={() => setRunner(todayWorkout)}
         onCustom={() => setCustomOpen(true)}
+        isFav={isFavourite(todayWorkout.workout_id)}
+        onToggleFav={() => toggleFav(todayWorkout)}
       />
     )
   } else if (tab === 'today' && !todayWorkout) {
@@ -180,6 +186,7 @@ export function App() {
         workouts={workouts}
         accent={accent}
         onOpen={handleOpenWorkout}
+        savedWorkouts={favourites}
       />
     )
   } else if (tab === 'program') {

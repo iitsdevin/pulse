@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { FOCUS_OPTIONS, INTENSITY, type FocusId, type IntensityId, type CustomSessionInput } from '../lib/sessionBuilder'
+import { FOCUS_OPTIONS, type FocusId, type CustomSessionInput } from '../lib/sessionBuilder'
 
 interface CustomSessionSheetProps {
   visible: boolean
@@ -7,14 +7,32 @@ interface CustomSessionSheetProps {
   onStart: (input: CustomSessionInput) => void
 }
 
-const INTENSITIES: IntensityId[] = ['chill', 'standard', 'spicy']
-
 export function CustomSessionSheet({ visible, onClose, onStart }: CustomSessionSheetProps) {
   const [focus, setFocus] = useState<FocusId>('upper')
   const [duration, setDuration] = useState(20)
-  const [intensity, setIntensity] = useState<IntensityId>('standard')
+  const [workSec, setWorkSec] = useState(40)
+  const [restSec, setRestSec] = useState(20)
 
   if (!visible) return null
+
+  const timeSlider = (
+    label: string,
+    value: number,
+    onChange: (v: number) => void,
+  ) => (
+    <div style={{ background: 'var(--surface-2)', borderRadius: 16, padding: '14px 18px' }}>
+      <div className="flex items-baseline justify-between mb-2.5">
+        <div className="text-[14px] font-semibold" style={{ color: 'var(--text-1)' }}>{label}</div>
+        <div className="font-mono font-[800] text-[22px]" style={{ color: 'var(--accent-ink)', letterSpacing: -0.5 }}>
+          {value}<span className="text-[11px] ml-0.5" style={{ color: 'var(--text-3)' }}>sec</span>
+        </div>
+      </div>
+      <input type="range" min={0} max={120} step={5} value={value} onChange={e => onChange(parseInt(e.target.value, 10))} className="pulse-range w-full" />
+      <div className="flex justify-between mt-1 font-mono text-[9px]" style={{ color: 'var(--text-3)' }}>
+        <span>0</span><span>120</span>
+      </div>
+    </div>
+  )
 
   const sectionLabel = (t: string) => (
     <div className="font-mono text-[10px] font-bold" style={{ padding: '18px 18px 8px', letterSpacing: 1.5, color: 'var(--text-3)' }}>{t}</div>
@@ -82,29 +100,17 @@ export function CustomSessionSheet({ visible, onClose, onStart }: CustomSessionS
           </div>
         </div>
 
-        {/* INTENSITY */}
-        {sectionLabel('INTENSITY')}
-        <div className="mx-3.5 flex gap-2">
-          {INTENSITIES.map(i => {
-            const active = intensity === i
-            return (
-              <button
-                key={i}
-                onClick={() => setIntensity(i)}
-                className="flex-1 p-0 border-none cursor-pointer"
-                style={{ borderRadius: 12, padding: '11px 0', background: active ? 'var(--accent)' : 'var(--surface-2)', outline: active ? 'none' : '1px solid var(--hairline)' }}
-              >
-                <div className="text-[13px] font-bold" style={{ color: active ? 'var(--accent-on)' : 'var(--text-1)' }}>{INTENSITY[i].label}</div>
-                <div className="font-mono text-[9px] mt-0.5" style={{ color: active ? 'var(--accent-on)' : 'var(--text-3)', opacity: active ? 0.8 : 1 }}>{INTENSITY[i].work}s / {INTENSITY[i].rest}s</div>
-              </button>
-            )
-          })}
+        {/* TIMING */}
+        {sectionLabel('TIMING')}
+        <div className="mx-3.5 flex flex-col gap-2.5">
+          {timeSlider('Work', workSec, setWorkSec)}
+          {timeSlider('Rest', restSec, setRestSec)}
         </div>
 
         {/* START */}
         <div className="mx-3.5 mt-5">
           <button
-            onClick={() => onStart({ focus, durationMin: duration, intensity })}
+            onClick={() => onStart({ focus, durationMin: duration, workSec, restSec })}
             className="w-full font-mono text-[13px] font-bold border-none cursor-pointer"
             style={{ background: 'var(--accent)', color: 'var(--accent-on)', padding: '15px 0', borderRadius: 14, letterSpacing: 1.5 }}
           >

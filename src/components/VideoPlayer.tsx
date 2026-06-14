@@ -1,4 +1,5 @@
 import { ACCENT_DEFAULT } from '../lib/constants'
+import { DriveFrame } from './DriveFrame'
 
 interface VideoPlayerProps {
   url: string
@@ -15,13 +16,7 @@ export function VideoPlayer({ url, label, accent = ACCENT_DEFAULT }: VideoPlayer
   if (url.includes('drive.google.com')) {
     return (
       <div className="relative w-full rounded-timer overflow-hidden bg-black" style={{ aspectRatio: '16 / 9' }}>
-        <iframe
-          src={url}
-          allow="autoplay; fullscreen"
-          allowFullScreen
-          className="w-full h-full border-0"
-          title={label || 'Workout video'}
-        />
+        <DriveFrame url={url} title={label || 'Workout video'} />
       </div>
     )
   }
@@ -44,7 +39,7 @@ function VideoPlaceholder({ label, accent }: { label?: string; accent: string })
       <div
         className="absolute inset-0 animate-stripes"
         style={{
-          background: 'repeating-linear-gradient(135deg, #1a1a1a 0 12px, #0f0f0f 12px 24px)',
+          backgroundImage: 'repeating-linear-gradient(135deg, #1a1a1a 0 12px, #0f0f0f 12px 24px)',
           backgroundSize: '48px 48px',
         }}
       />

@@ -10,9 +10,11 @@ interface HeroCardProps {
   isToday?: boolean
   pct: number
   onOpenSettings?: () => void
+  isFav?: boolean
+  onToggleFav?: () => void
 }
 
-export function HeroCard({ workout, accent = ACCENT_DEFAULT, isToday = true, pct, onOpenSettings }: HeroCardProps) {
+export function HeroCard({ workout, accent = ACCENT_DEFAULT, isToday = true, pct, onOpenSettings, isFav, onToggleFav }: HeroCardProps) {
   const duration = parseDuration(workout.total_duration_minutes)
   const totalExercises = workout.rounds.reduce((a, r) => a + r.exercises.length, 0)
   const type: WorkoutType = inferWorkoutType(workout.muscle_groups, workout.workout_title)
@@ -40,6 +42,18 @@ export function HeroCard({ workout, accent = ACCENT_DEFAULT, isToday = true, pct
         </div>
         <div className="flex items-center gap-2">
           <TypeBadge type={type} />
+          {onToggleFav && (
+            <button
+              onClick={onToggleFav}
+              aria-label={isFav ? 'Remove from saved' : 'Save workout'}
+              className="flex items-center justify-center p-0 border-none cursor-pointer"
+              style={{ width: 34, height: 34, borderRadius: 10, background: 'rgba(255,255,255,0.08)' }}
+            >
+              <svg width="17" height="17" viewBox="0 0 18 18" fill={isFav ? accent : 'none'}>
+                <path d="M9 15.5C9 15.5 2 11.5 2 6.6 2 4.3 3.8 2.8 5.9 2.8 7.2 2.8 8.4 3.5 9 4.6 9.6 3.5 10.8 2.8 12.1 2.8 14.2 2.8 16 4.3 16 6.6 16 11.5 9 15.5 9 15.5Z" stroke={isFav ? accent : '#fff'} strokeWidth="1.6" strokeLinejoin="round" />
+              </svg>
+            </button>
+          )}
           {onOpenSettings && (
             <button
               onClick={onOpenSettings}
