@@ -1,5 +1,5 @@
 import { ACCENT_DEFAULT } from '../lib/constants'
-import { DriveFrame } from './DriveFrame'
+import { DemoVideo } from './DemoVideo'
 
 interface VideoPlayerProps {
   url: string
@@ -12,11 +12,11 @@ export function VideoPlayer({ url, label, accent = ACCENT_DEFAULT }: VideoPlayer
     return <VideoPlaceholder label={label} accent={accent} />
   }
 
-  // Google Drive videos stream via the Drive preview iframe (no download needed)
+  // Google Drive demos stream natively (no cookies, no overlay, muted autoplay).
   if (url.includes('drive.google.com')) {
     return (
       <div className="relative w-full rounded-timer overflow-hidden bg-black" style={{ aspectRatio: '16 / 9' }}>
-        <DriveFrame url={url} title={label || 'Workout video'} />
+        <DemoVideo previewUrl={url} title={label || 'Workout video'} autoPlay={false} />
       </div>
     )
   }
